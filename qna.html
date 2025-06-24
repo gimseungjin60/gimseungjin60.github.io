@@ -10,141 +10,81 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: 'Noto Sans KR', sans-serif; background:#fafafa; color:#1f2937; }
-    /* header nav hover fix */
-    nav ul li.relative:hover > ul,
-    nav ul li.relative ul:hover {
-      opacity:1!important;visibility:visible!important;pointer-events:auto!important;
+    nav ul li.relative:hover > ul, nav ul li.relative ul:hover {
+      opacity:1!important; visibility:visible!important; pointer-events:auto!important;
     }
     nav ul li.relative ul { margin-top:0!important; }
 
-    /* FAQ */
     .faq-list { border-top:1px solid #e5e7eb; }
     .faq-item { border-bottom:1px solid #e5e7eb; }
     .faq-question {
       width:100%; display:flex; justify-content:space-between; align-items:center;
       padding:1rem 0; font-size:1rem; font-weight:500; background:#fff;
+      border-left: 4px solid transparent; transition: border-color 0.3s ease;
     }
     .faq-question:hover { color:#0f766e; }
-    .faq-question .icon {
-      font-size:1.25rem; color:#9ca3af; transition:transform .3s;
-    }
-    .faq-question {
-    border-left: 4px solid transparent;
-    transition: border-color 0.3s ease;
-    }
+    .faq-question .icon { font-size:1.5rem; color:#9ca3af; transition:transform .3s; }
     .faq-item.open .icon { transform:rotate(45deg); color:#0f766e; }
-    .faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: all 0.4s ease;
-    }
+    .faq-answer { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; }
+    .faq-item.open .faq-answer { max-height: 500px; opacity: 1; margin-bottom: 1rem; }
 
-    .faq-item.open .faq-answer {
-    max-height: 500px; /* 충분한 값으로 설정 */
-    opacity: 1;
-    margin-bottom: 1rem;
+    @media (max-width: 640px) {
+      .faq-question { font-size: 0.95rem; padding: 1rem 0.5rem; }
+      .faq-answer { font-size: 0.9rem; line-height: 1.6; }
     }
-    
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
-
-  <!-- HEADER (메인과 동일) -->
   <header class="bg-white shadow sticky top-0 z-50">
     <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-      <!-- 로고 & 홈 링크 -->
       <a href="index.html" class="flex items-center space-x-3">
         <img src="images/oalogo.jpg" alt="회사 로고" class="h-20 w-auto flex-shrink-0" />
       </a>
-      
-      <!-- PC용 네비게이션 -->
       <nav class="hidden sm:block">
         <ul class="flex space-x-10 text-base font-bold text-gray-800">
-          <li>
-            <a href="index.html" class="hover:text-blue-600 transition whitespace-nowrap">홈</a>
-          </li>
-          <!-- 잉크젯복합기 -->
+          <li><a href="index.html" class="hover:text-blue-600 transition whitespace-nowrap">홈</a></li>
           <li class="relative group">
             <a href="#" class="hover:text-blue-600 transition inline-block whitespace-nowrap">잉크젯복합기</a>
-            <ul class="absolute left-0 top-full mt-2 w-60 bg-white shadow-lg rounded-md py-2
-                       opacity-0 invisible
-                       group-hover:opacity-100 group-hover:visible
-                       hover:opacity-100 hover:visible
-                       pointer-events-none group-hover:pointer-events-auto hover:pointer-events-auto
-                       transition duration-200">
-              <li>
-                <a href="ink-small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러소형복합기(A4)</a>
-              </li>
-              <li>
-                <a href="ink-large-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러대형복합기(A3)</a>
-              </li>
+            <ul class="absolute left-0 top-full mt-2 w-60 bg-white shadow-lg rounded-md py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-200">
+              <li><a href="ink-small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium">컬러소형복합기(A4)</a></li>
+              <li><a href="ink-large-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium">컬러대형복합기(A3)</a></li>
             </ul>
           </li>
-          <!-- 레이저복합기 -->
           <li class="relative group">
             <a href="#" class="hover:text-blue-600 transition inline-block whitespace-nowrap">레이저복합기</a>
-            <ul class="absolute left-0 top-full w-60 bg-white shadow-lg rounded-md py-2
-                       opacity-0 invisible
-                       group-hover:opacity-100 group-hover:visible
-                       hover:opacity-100 hover:visible
-                       pointer-events-none group-hover:pointer-events-auto hover:pointer-events-auto
-                       transition duration-200">
-              <li>
-                <a href="lazer-small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러소형복합기(A4)</a>
-              </li>
-              <li>
-                <a href="lazer-large-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러대형복합기(A3)</a>
-              </li>
-              <li>
-                <a href="lazer-small-bw.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">흑백소형복합기(A4)</a>
-              </li>
-              <li>
-                <a href="lazer-large-bw.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">흑백대형복합기(A3)</a>
-              </li>
+            <ul class="absolute left-0 top-full w-60 bg-white shadow-lg rounded-md py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-200">
+              <li><a href="lazer-small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium">컬러소형복합기(A4)</a></li>
+              <li><a href="lazer-large-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium">컬러대형복합기(A3)</a></li>
+              <li><a href="lazer-small-bw.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium">흑백소형복합기(A4)</a></li>
+              <li><a href="lazer-large-bw.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium">흑백대형복합기(A3)</a></li>
             </ul>
           </li>
-          <!-- 문서세단기 -->
           <li class="relative group">
             <a href="#" class="hover:text-blue-600 transition inline-block whitespace-nowrap">문서세단기</a>
-            <ul class="absolute left-0 top-full mt-2 w-60 bg-white shadow-lg rounded-md py-2
-                       opacity-0 invisible
-                       group-hover:opacity-100 group-hover:visible
-                       hover:opacity-100 hover:visible
-                       pointer-events-none group-hover:pointer-events-auto hover:pointer-events-auto
-                       transition duration-200">
-              <li>
-                <a href="small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">문서세단기</a>
-              </li>
+            <ul class="absolute left-0 top-full mt-2 w-60 bg-white shadow-lg rounded-md py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-200">
+              <li><a href="small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium">문서세단기</a></li>
             </ul>
           </li>
           <li><a href="event.html" class="hover:text-blue-600 transition whitespace-nowrap">이벤트</a></li>
           <li><a href="installation.html" class="hover:text-blue-600 transition whitespace-nowrap">설치사례</a></li>
         </ul>
       </nav>
-    
-      <!-- PC용 연락처 -->
       <div class="hidden sm:block text-gray-600 font-semibold whitespace-nowrap">
         <span>문의: 010-3794-8363 (평일 09:00~18:00)</span>
       </div>
-    
-      <!-- 모바일 햄버거 버튼 -->
-      <button id="menu-btn" class="sm:hidden focus:outline-none text-gray-800" aria-label="메뉴 열기" aria-expanded="false">
+      <button id="menu-btn" class="sm:hidden focus:outline-none text-gray-800">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
     </div>
-
-    <!-- 모바일 메뉴 -->
     <nav id="mobile-menu" class="sm:hidden fixed top-0 left-0 w-full h-full bg-white z-40 transform -translate-x-full transition-transform duration-300">
       <div class="px-6 py-8">
-        <button id="menu-close-btn" class="mb-8 text-gray-800 focus:outline-none">
+        <button id="menu-close-btn" class="mb-8 text-gray-800">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-
         <ul class="space-y-6 text-lg font-bold text-gray-800">
           <li><a href="index.html" class="block">홈</a></li>
           <li><a href="small-color.html" class="block">소형컬러복합기 (A4)</a></li>
@@ -153,26 +93,19 @@
           <li><a href="large-bw.html" class="block">대형흑백복합기 (A3)</a></li>
           <li><a href="event.html" class="block">이벤트</a></li>
           <li><a href="installation.html" class="block">설치사례</a></li>
-          <li class="mt-6 text-gray-600 font-semibold whitespace-nowrap">문의: 010-3794-8363 (평일 09:00~18:00)</li>
+          <li class="mt-6 text-gray-600 font-semibold whitespace-nowrap">문의: 010-3794-8363</li>
         </ul>
       </div>
     </nav>
-
     <script>
       const menuBtn = document.getElementById('menu-btn');
       const mobileMenu = document.getElementById('mobile-menu');
       const menuCloseBtn = document.getElementById('menu-close-btn');
-
-      menuBtn.addEventListener('click', () => {
-        mobileMenu.classList.remove('-translate-x-full');
-      });
-      menuCloseBtn.addEventListener('click', () => {
-        mobileMenu.classList.add('-translate-x-full');
-      });
+      menuBtn.addEventListener('click', () => { mobileMenu.classList.remove('-translate-x-full'); });
+      menuCloseBtn.addEventListener('click', () => { mobileMenu.classList.add('-translate-x-full'); });
     </script>
   </header>
 
-  <!-- FAQ SECTION -->
   <main class="flex-1 py-12">
     <div class="max-w-3xl mx-auto px-6">
       <h2 class="text-2xl font-bold text-gray-900 mb-6">자주 묻는 질문</h2>
@@ -262,7 +195,6 @@
     </div>
   </main>
 
-  <!-- FOOTER -->
   <footer class="bg-gray-800 text-white py-8">
     <div class="max-w-6xl mx-auto px-6 text-center text-sm space-y-2">
       <p>(주) 미래OA하이테크 | 대표: 김성식</p>
@@ -272,18 +204,15 @@
     </div>
   </footer>
 
-  <!-- 아코디언 스크립트 -->
   <script>
     document.querySelectorAll('.faq-question').forEach(btn => {
-     btn.addEventListener('click', () => {
-    const item = btn.closest('.faq-item');
-    const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
-    if (!isOpen) {
-      item.classList.add('open');
-    }
-  });
-});
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+        if (!isOpen) { item.classList.add('open'); }
+      });
+    });
   </script>
 </body>
 </html>
