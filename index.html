@@ -35,20 +35,25 @@
     }
     #fixed-sidebar {
       position: fixed;
-      bottom: 85px;
-      right: 55px;
-      width: 320px;
-      height: 260px;
-      z-index: 15;
+      bottom: 25px;
+      right: 25px;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 6px;
+      gap: 8px;
+      z-index: 5;
+
+      /* ✅ div가 내부 이미지 크기만큼만 차지하도록 */
+      width: fit-content;
+      height: fit-content;
+
+      /* ✅ 지도 클릭 막지 않도록 */
+      pointer-events: none;
     }
     #fixed-sidebar a {
       display: block;
-      width: 64px;
-      transition: transform 0.2s ease, opacity 0.2s ease;
+      width: 64px; /* 각 버튼 폭만 지정 */
+      pointer-events: auto; /* a태그는 클릭 가능 */
     }
     #fixed-sidebar a img {
       width: 100%;
@@ -64,12 +69,12 @@
     }
     @media screen and (max-width: 640px) {
       #fixed-sidebar {
-        right: 12px;
-        bottom: 20px;
-        width: auto;
-        height: auto;
-        align-items: flex-end;
-        gap: 6px; /* ← 줄임 */
+    position: fixed;
+    bottom: 20px;   /* ✅ 아래로 더 내림 */
+    right: 20px;    /* ✅ 살짝 안쪽으로 */
+    width: auto;
+    height: auto;
+    z-index: 5;
       }
       #fixed-sidebar a {
         width: 56px; /* ← 살짝 키움 */
@@ -78,6 +83,9 @@
     #map {
       width: 100%;
       height: 400px;
+      position: relative;
+      z-index: 50 !important; /* 지도 및 컨트롤을 최상단으로 */
+
       min-height: 400px;
     }
     /* ✅ 드롭다운 문제 해결용 수정 */
@@ -280,10 +288,13 @@
   <div class="border-t border-gray-400 my-12"></div>
 
   <!-- 카카오 지도 섹션 -->
-  <!-- <section id="location" class="max-w-7xl mx-auto px-6 mb-12">
+  <section id="location" style="position: relative; z-index: 0;">
     <h3 class="text-2xl font-bold text-black-800 mb-6 text-center">오시는 길</h3>
-<div id="map" style="width: 100%; height: 400px;"></div>
-  </section> -->
+    <div id="map"
+        style="width: 60%; height: 400px; margin: 0 auto; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                position: relative; max-width: 900px; z-index: 1;">
+    </div>
+  </section>
 
   <section class="max-w-7xl mx-auto px-6 py-12">
     <h2 class="text-3xl font-bold text-center mb-2">베스트 상품</h2>
@@ -436,7 +447,7 @@
       },
     });
   </script>
-<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=d95535d2134a278b616878a272064d7b&autoload=false"></script>
+<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=d95535d2134a278b616878a272064d7b"></script>
 <script>
 window.addEventListener("DOMContentLoaded", function () {
   if (typeof kakao === "undefined" || !kakao.maps) {
@@ -444,19 +455,95 @@ window.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  kakao.maps.load(function () {
     const container = document.getElementById("map");
     if (!container) return;
 
+    // 기본 지도 옵션
     const options = {
-      center: new kakao.maps.LatLng(37.5665, 126.9780),
-      level: 6
+      center: new kakao.maps.LatLng(37.37711, 126.80510),
+      level: 4
     };
 
+    // 지도 생성
     const map = new kakao.maps.Map(container, options);
-    const marker = new kakao.maps.Marker({ position: options.center });
-    marker.setMap(map);
-  });
+
+    // 확대/축소 컨트롤 추가
+    const zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    // 지도 타입 전환 컨트롤 추가 (일반 ↔ 스카이뷰)
+    const mapTypeControl = new kakao.maps.MapTypeControl();
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+    // 회사 위치 마커 생성
+    const markerPosition = new kakao.maps.LatLng(37.37711, 126.80510);
+    const marker = new kakao.maps.Marker({
+      position: markerPosition,
+      map: map
+    });
+
+    // 정보창 내용
+    const infoContent = `
+      <div style="padding:10px; font-size:13px; line-height:1.4;">
+        <strong>미래OA하이테크</strong><br>
+        경기도 시흥시 조남동 719-1<br>
+        ☎ 010-3794-8363
+      </div>`;
+    const infoWindow = new kakao.maps.InfoWindow({
+      content: infoContent
+    });
+
+    // 마커 클릭 시 정보창 열기/닫기
+    kakao.maps.event.addListener(marker, 'click', function() {
+      infoWindow.open(map, marker);
+    });
+
+    // ✅ 내 위치로 이동 버튼 생성
+    const customButton = document.createElement("button");
+    customButton.textContent = "📍 내 위치 보기";
+    customButton.style.cssText = `
+      position:absolute;
+      bottom:15px;
+      left:15px;
+      z-index:10;
+      background:#2563eb;
+      color:#fff;
+      border:none;
+      padding:8px 12px;
+      border-radius:6px;
+      font-size:13px;
+      cursor:pointer;
+      box-shadow:0 2px 6px rgba(0,0,0,0.2);
+    `;
+    container.appendChild(customButton);
+
+    // 클릭 시 내 위치로 이동
+    customButton.addEventListener("click", () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          const loc = new kakao.maps.LatLng(lat, lng);
+          map.setCenter(loc);
+
+          const myMarker = new kakao.maps.Marker({
+            position: loc,
+            map: map,
+            title: "내 위치"
+          });
+
+          // 툴팁 표시
+          const myInfo = new kakao.maps.InfoWindow({
+            content: '<div style="padding:5px;font-size:12px;">현재 위치</div>'
+          });
+          myInfo.open(map, myMarker);
+        }, () => {
+          alert("위치 접근이 거부되었습니다 😥");
+        });
+      } else {
+        alert("이 브라우저는 위치 서비스를 지원하지 않습니다.");
+      }
+    });
 });
 </script>
 
