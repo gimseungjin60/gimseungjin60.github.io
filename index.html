@@ -1,612 +1,438 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html lang="ko" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="description" content="복합기 렌탈 전문 미래OA하이테크 - 중소기업, 병원, 학원 맞춤 서비스 제공.">
-  <title>복합기 렌탈 전문 미래OA하이테크</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="복합기 렌탈 전문 다연OA시스템 - 스마트한 사무환경을 위한 최적의 솔루션">
+    <title>다연OA시스템 | Premium Office Solution</title>
 
-<link rel="icon" href="https://mirae-oa.com/images/favicon.jpg" type="image/jpg">
+    <link rel="icon" href="./images/favicon.jpg" type="image/jpg">
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
-<link href="https://mirae-oa.com/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
-  <style>
-    body {
-      scroll-behavior: smooth;
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    #banner-text {
-      white-space: nowrap;
-      color: white;
-      font-weight: 600;
-      display: inline-block;
-      animation: scroll-text 15s linear infinite;
-    }
-    @keyframes scroll-text {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-    #fixed-sidebar {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 8px;
-      z-index: 5;
+    <style>
+        body { font-family: 'Pretendard', sans-serif; }
+        
+        /* 스크롤 시 헤더 스타일 */
+        .header-scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+        .header-scrolled .nav-link { color: #334155 !important; }
+        .header-scrolled .logo-text { color: #0f172a !important; }
+        .header-scrolled .logo-box { background-color: #f97316 !important; color: white !important; }
 
-      /* ✅ div가 내부 이미지 크기만큼만 차지하도록 */
-      width: fit-content;
-      height: fit-content;
+        /* 드롭다운 애니메이션 */
+        .group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        /* 이미지 줌 효과 */
+        .img-zoom:hover img { transform: scale(1.08); }
+        .img-zoom img { transition: transform 0.5s ease; }
 
-      /* ✅ 지도 클릭 막지 않도록 */
-      pointer-events: none;
-    }
-    #fixed-sidebar a {
-      display: block;
-      width: 64px; /* 각 버튼 폭만 지정 */
-      pointer-events: auto; /* a태그는 클릭 가능 */
-    }
-    #fixed-sidebar a img {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      border-radius: 3px;
-      pointer-events: none;
-    }
-    #fixed-sidebar a:hover,
-    #fixed-sidebar a:active {
-      transform: translateX(-4px) scale(1.1);
-      opacity: 0.9;
-    }
-    @media screen and (max-width: 640px) {
-      #fixed-sidebar {
-    position: fixed;
-    bottom: 20px;   /* ✅ 아래로 더 내림 */
-    right: 20px;    /* ✅ 살짝 안쪽으로 */
-    width: auto;
-    height: auto;
-    z-index: 5;
-      }
-      #fixed-sidebar a {
-        width: 56px; /* ← 살짝 키움 */
-      }
-    }
-    #map {
-      width: 100%;
-      height: 400px;
-      position: relative;
-      z-index: 50 !important; /* 지도 및 컨트롤을 최상단으로 */
-
-      min-height: 400px;
-    }
-    /* ✅ 드롭다운 문제 해결용 수정 */
-    nav ul li.relative:hover > ul,
-    nav ul li.relative ul:hover {
-      opacity: 1 !important;
-      visibility: visible !important;
-      pointer-events: auto !important;
-    }
-    nav ul li.relative ul {
-      margin-top: 0 !important; /* ✅ mt-2 제거 */
-    }
-    /* 상담 스타일 추가 */
-      .cs-question {
-    background: #f1f5f9;
-    border: 1px solid #e5e7eb;
-    padding: 0.5rem;
-    width: 100%;
-    text-align: left;
-    border-radius: 0.375rem;
-    transition: background 0.3s;
-  }
-  .cs-question:hover {
-    background: #e0f2fe;
-  }
-  </style>
+        /* 텍스트 그라데이션 */
+        .text-gradient {
+            background: linear-gradient(to right, #f97316, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
 </head>
-<body>
-  <div id="fixed-sidebar" >
-    <a href="#top" title="TOP">
-      <img src="https://mirae-oa.com/images/top.gif" alt="TOP">
-    </a>
-    <a href="qna.html" title="자주 묻는 질문">
-      <img src="https://mirae-oa.com/images/sidebar-qna.jpg" alt="자주 묻는 질문">
-    </a>
-    <!-- 변경된 코드 -->
-    <a href="#" id="cs-toggle" title="고객센터">
-      <img src="https://mirae-oa.com/images/sidebar-cs.jpg" alt="고객센터">
-    </a>
-    <a href="https://blog.naver.com/1973alfo" title="네이버블로그" target="_blank">
-      <img src="https://mirae-oa.com/images/naver.png" alt="네이버블로그">
-    </a>
-  </div>
+<body class="text-slate-800 bg-white antialiased selection:bg-orange-100 selection:text-orange-600">
 
-  <header class="bg-white shadow sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-      <!-- 로고 & 홈 링크 -->
-      <a href="index.html" class="flex items-center space-x-3">
-        <img src="https://mirae-oa.com/images/oalogo.jpg" alt="회사 로고" class="h-20 w-auto flex-shrink-0" />
-      </a>
-      
-      <!-- PC용 네비게이션 -->
-      <nav class="hidden sm:block">
-        <ul class="flex space-x-10 text-base font-bold text-black-800">
-          <li>
-            <a href="index.html" class="hover:text-blue-600 transition whitespace-nowrap">홈</a>
-          </li>
-          <!-- 잉크젯복합기 -->
-          <li class="relative group">
-            <a href="#" class="hover:text-blue-600 transition inline-block whitespace-nowrap">잉크젯복합기</a>
-            <ul class="absolute left-0 top-full mt-2 w-60 bg-white shadow-lg rounded-md py-2
-                       opacity-0 invisible
-                       group-hover:opacity-100 group-hover:visible
-                       hover:opacity-100 hover:visible
-                       pointer-events-none group-hover:pointer-events-auto hover:pointer-events-auto
-                       transition duration-200">
-              <li>
-                <a href="ink-small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러소형복합기(A4)</a>
-              </li>
-              <li>
-                <a href="ink-large-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러대형복합기(A3)</a>
-              </li>
-            </ul>
-          </li>
-          <!-- 레이저복합기 -->
-          <li class="relative group">
-            <a href="#" class="hover:text-blue-600 transition inline-block whitespace-nowrap">레이저복합기</a>
-            <ul class="absolute left-0 top-full w-60 bg-white shadow-lg rounded-md py-2
-                       opacity-0 invisible
-                       group-hover:opacity-100 group-hover:visible
-                       hover:opacity-100 hover:visible
-                       pointer-events-none group-hover:pointer-events-auto hover:pointer-events-auto
-                       transition duration-200">
-              <li>
-                <a href="lazer-small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러소형복합기(A4)</a>
-              </li>
-              <li>
-                <a href="lazer-large-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러대형복합기(A3)</a>
-              </li>
-              <li>
-                <a href="lazer-small-bw.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">흑백소형복합기(A4)</a>
-              </li>
-              <li>
-                <a href="lazer-large-bw.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">흑백대형복합기(A3)</a>
-              </li>
-            </ul>
-          </li>
-          <!-- 문서세단기 -->
-          <li class="relative group">
-            <a href="#" class="hover:text-blue-600 transition inline-block whitespace-nowrap">문서세단기</a>
-            <ul class="absolute left-0 top-full mt-2 w-60 bg-white shadow-lg rounded-md py-2
-                       opacity-0 invisible
-                       group-hover:opacity-100 group-hover:visible
-                       hover:opacity-100 hover:visible
-                       pointer-events-none group-hover:pointer-events-auto hover:pointer-events-auto
-                       transition duration-200">
-              <li>
-                <a href="paper-shredder.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">문서세단기</a>
-              </li>
-            </ul>
-          </li>
-          <li><a href="event.html" class="hover:text-blue-600 transition whitespace-nowrap">이벤트</a></li>
-          <li><a href="installation.html" class="hover:text-blue-600 transition whitespace-nowrap">설치사례</a></li>
-        </ul>
-      </nav>
+<header id="main-header" class="fixed w-full top-0 z-50 transition-all duration-300 py-6 bg-transparent">
+        <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-14"> <a href="index.html" class="flex items-center gap-3 group z-50 h-full">
+                <div class="logo-box w-10 h-10 bg-white/10 backdrop-blur text-white border border-white/20 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg transition-colors">D</div>
+                <span class="logo-text text-2xl font-extrabold text-white tracking-tight transition-colors drop-shadow-md">다연OA</span>
+            </a>
+
+            <nav class="hidden lg:flex h-full items-center">
+                <ul class="flex items-center space-x-12 text-[17px] font-bold nav-link text-white transition-colors drop-shadow-md">
+                    <li class="flex items-center h-full"><a href="index.html" class="hover:text-orange-500 transition block">홈</a></li>
+                    
+                    <li class="relative group h-full flex items-center">
+                        <a href="#" class="hover:text-orange-500 transition flex items-center gap-1 py-4"> 잉크젯복합기
+                            <svg class="w-3 h-3 opacity-70 stroke-[3px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+                        </a>
+                        <div class="dropdown-menu absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible transform translate-y-2 transition-all duration-200">
+                            <div class="bg-white rounded-xl shadow-xl border border-slate-100 p-2 w-52 overflow-hidden">
+                                <a href="ink-small-color.html" class="block px-4 py-3 hover:bg-orange-50 rounded-lg text-slate-600 hover:text-orange-600 text-base font-medium">컬러소형 (A4)</a>
+                                <a href="ink-large-color.html" class="block px-4 py-3 hover:bg-orange-50 rounded-lg text-slate-600 hover:text-orange-600 text-base font-medium">컬러대형 (A3)</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="relative group h-full flex items-center">
+                        <a href="#" class="hover:text-orange-500 transition flex items-center gap-1 py-4">
+                            레이저복합기
+                            <svg class="w-3 h-3 opacity-70 stroke-[3px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+                        </a>
+                        <div class="dropdown-menu absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible transform translate-y-2 transition-all duration-200">
+                            <div class="bg-white rounded-xl shadow-xl border border-slate-100 p-2 w-52 overflow-hidden">
+                                <a href="lazer-small-color.html" class="block px-4 py-3 hover:bg-orange-50 rounded-lg text-slate-600 hover:text-orange-600 text-base font-medium">컬러소형 (A4)</a>
+                                <a href="lazer-large-color.html" class="block px-4 py-3 hover:bg-orange-50 rounded-lg text-slate-600 hover:text-orange-600 text-base font-medium">컬러대형 (A3)</a>
+                                <div class="h-px bg-slate-100 my-1"></div>
+                                <a href="lazer-small-bw.html" class="block px-4 py-3 hover:bg-orange-50 rounded-lg text-slate-600 hover:text-orange-600 text-base font-medium">흑백소형 (A4)</a>
+                                <a href="lazer-large-bw.html" class="block px-4 py-3 hover:bg-orange-50 rounded-lg text-slate-600 hover:text-orange-600 text-base font-medium">흑백대형 (A3)</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="flex items-center h-full"><a href="paper-shredder.html" class="hover:text-orange-500 transition block">문서세단기</a></li>
+                    <li class="flex items-center h-full"><a href="event.html" class="hover:text-orange-500 transition block">이벤트</a></li>
+                    <li class="flex items-center h-full"><a href="installation.html" class="hover:text-orange-500 transition block">설치사례</a></li>
+                </ul>
+            </nav>
+
+            <button id="menu-btn" class="lg:hidden text-white nav-link z-50 drop-shadow-md">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+    </header>
     
-      <!-- PC용 연락처 -->
-      <div class="hidden sm:block text-black-600 font-semibold whitespace-nowrap">
-        <span>문의: 010-3794-8363 (평일 09:00~18:00)</span>
-      </div>
-    
-      <!-- 모바일 햄버거 버튼 -->
-      <button id="menu-btn" class="sm:hidden focus:outline-none text-black-800" aria-label="메뉴 열기" aria-expanded="false">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
+    <section class="relative h-screen min-h-[600px] bg-slate-900 overflow-hidden">
+        <div class="swiper mySwiper w-full h-full">
+            <div class="swiper-wrapper">
+                
+                <div class="swiper-slide relative">
+                    <img src="./images/banner1-1.png" class="w-full h-full object-cover" alt="Banner 1">
+                    
+                    </div>
+
+                <div class="swiper-slide relative">
+                    <img src="./images/banner1-2.png" class="w-full h-full object-cover" alt="Banner 2">
+                    
+                    </div>
+
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+    <div class="bg-white border-b border-slate-100 relative z-20 -mt-20 mx-6 md:mx-auto max-w-6xl rounded-2xl shadow-xl p-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+            <p class="text-3xl font-bold text-slate-900 mb-1">500+</p>
+            <p class="text-slate-500 text-sm">관리 기업</p>
+        </div>
+        <div class="border-l border-slate-100">
+            <p class="text-3xl font-bold text-slate-900 mb-1">98%</p>
+            <p class="text-slate-500 text-sm">고객 만족도</p>
+        </div>
+        <div class="border-l border-slate-100">
+            <p class="text-3xl font-bold text-slate-900 mb-1">24h</p>
+            <p class="text-slate-500 text-sm">당일 A/S 원칙</p>
+        </div>
+        <div class="border-l border-slate-100">
+            <p class="text-3xl font-bold text-orange-500 mb-1">Zero</p>
+            <p class="text-slate-500 text-sm">초기 설치비</p>
+        </div>
     </div>
 
-    <!-- 모바일 메뉴 -->
-    <nav id="mobile-menu" class="sm:hidden fixed top-0 left-0 w-full h-full bg-white z-40 transform -translate-x-full transition-transform duration-300">
-      <div class="px-6 py-8">
-        <button id="menu-close-btn" class="mb-8 text-black-800 focus:outline-none">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
+      <section class="py-24 bg-white">
+          <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="text-orange-500 font-bold text-sm tracking-widest uppercase">Best Products</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2">이달의 추천 모델</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <a href="product-detail.html?id=HP9010" class="block group">
+                    <div class="bg-white rounded-[2rem] p-4 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                        <div class="bg-slate-50 rounded-3xl aspect-[4/3] flex items-center justify-center p-6 img-zoom overflow-hidden relative">
+                             <span class="absolute top-4 left-4 bg-slate-900 text-white text-[10px] font-bold px-2.5 py-1 rounded-full">INKJET</span>
+                            <img src="./images/HP9010.png" alt="HP9010" class="w-full h-full object-contain">
+                        </div>
+                        <div class="p-4 pt-6">
+                            <h3 class="text-lg font-bold text-slate-900 mb-1 group-hover:text-orange-500 transition">HP 9010 잉크젯</h3>
+                            <p class="text-slate-400 text-sm mb-4">소형 사무실 / 고속출력</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xl font-bold text-slate-900">28,000원<span class="text-xs text-slate-400 font-normal">/월</span></span>
+                                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-orange-500 group-hover:text-white transition">➜</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="product-detail.html?id=GX7192" class="block group">
+                    <div class="bg-white rounded-[2rem] p-4 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                        <div class="bg-slate-50 rounded-3xl aspect-[4/3] flex items-center justify-center p-6 img-zoom overflow-hidden relative">
+                            <span class="absolute top-4 left-4 bg-orange-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full">HOT</span>
+                            <img src="./images/GX7192-1.jpg" alt="GX7192" class="w-full h-full object-contain">
+                        </div>
+                        <div class="p-4 pt-6">
+                            <h3 class="text-lg font-bold text-slate-900 mb-1 group-hover:text-orange-500 transition">캐논 GX7192</h3>
+                            <p class="text-slate-400 text-sm mb-4">무한잉크 / 팩스지원</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xl font-bold text-slate-900">30,000원<span class="text-xs text-slate-400 font-normal">/월</span></span>
+                                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-orange-500 group-hover:text-white transition">➜</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="product-detail.html?id=C3322" class="block group">
+                    <div class="bg-white rounded-[2rem] p-4 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                        <div class="bg-slate-50 rounded-3xl aspect-[4/3] flex items-center justify-center p-6 img-zoom overflow-hidden relative">
+                            <span class="absolute top-4 left-4 bg-blue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full">LASER</span>
+                            <img src="./images/C3322.png" alt="C3322" class="w-full h-full object-contain">
+                        </div>
+                        <div class="p-4 pt-6">
+                            <h3 class="text-lg font-bold text-slate-900 mb-1 group-hover:text-orange-500 transition">캐논 IR C3322</h3>
+                            <p class="text-slate-400 text-sm mb-4">A3 컬러 / 고해상도</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xl font-bold text-slate-900">49,000원<span class="text-xs text-slate-400 font-normal">/월</span></span>
+                                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-orange-500 group-hover:text-white transition">➜</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                 <a href="product-detail.html?id=C3922" class="block group">
+                    <div class="bg-white rounded-[2rem] p-4 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                        <div class="bg-slate-50 rounded-3xl aspect-[4/3] flex items-center justify-center p-6 img-zoom overflow-hidden relative">
+                            <span class="absolute top-4 left-4 bg-purple-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full">PREMIUM</span>
+                            <img src="./images/C3922.png" alt="C3922" class="w-full h-full object-contain">
+                        </div>
+                        <div class="p-4 pt-6">
+                            <h3 class="text-lg font-bold text-slate-900 mb-1 group-hover:text-orange-500 transition">캐논 IR C3922</h3>
+                            <p class="text-slate-400 text-sm mb-4">빠른 속도 / 자동양면</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xl font-bold text-slate-900">69,000원<span class="text-xs text-slate-400 font-normal">/월</span></span>
+                                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-orange-500 group-hover:text-white transition">➜</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-slate-900 text-center mb-16">렌탈 이용 절차</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center relative">
+                    <div class="w-20 h-20 bg-orange-50 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 text-orange-500 shadow-sm">📞</div>
+                    <h3 class="font-bold text-lg mb-2">상담 문의</h3>
+                    <p class="text-slate-500 text-sm">사용 환경과 월 출력량을<br>파악하여 견적을 제안합니다.</p>
+                </div>
+                 <div class="text-center relative">
+                    <div class="w-20 h-20 bg-blue-50 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 text-blue-500 shadow-sm">📝</div>
+                    <h3 class="font-bold text-lg mb-2">계약 체결</h3>
+                    <p class="text-slate-500 text-sm">합리적인 렌탈료로<br>계약서를 작성합니다.</p>
+                </div>
+                 <div class="text-center relative">
+                    <div class="w-20 h-20 bg-green-50 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 text-green-500 shadow-sm">🚚</div>
+                    <h3 class="font-bold text-lg mb-2">설치 및 교육</h3>
+                    <p class="text-slate-500 text-sm">전문 기사가 직접 방문하여<br>설치 및 사용법을 교육합니다.</p>
+                </div>
+                 <div class="text-center relative">
+                    <div class="w-20 h-20 bg-purple-50 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6 text-purple-500 shadow-sm">🔧</div>
+                    <h3 class="font-bold text-lg mb-2">정기 관리</h3>
+                    <p class="text-slate-500 text-sm">매월 정기 점검과 소모품<br>무상 제공 서비스를 받습니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="flex flex-col lg:flex-row min-h-[600px] bg-slate-900 text-white">
+        <div class="w-full lg:w-1/2 p-10 md:p-20 flex flex-col justify-center relative z-10">
+            <span class="text-orange-500 font-bold tracking-widest text-sm uppercase mb-4">Contact Us</span>
+            <h2 class="text-4xl md:text-5xl font-bold mb-10 leading-tight">무엇을 도와드릴까요?<br>언제든 연락주세요.</h2>
+            
+            <div class="space-y-8">
+                <div class="flex items-start gap-5">
+                    <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-2xl flex-shrink-0">📍</div>
+                    <div>
+                        <p class="text-slate-400 text-sm mb-1">오시는 길</p>
+                        <p class="text-lg font-medium">경기도 광주시 탄번길 31번길 28-1</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-5">
+                    <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-2xl flex-shrink-0">📞</div>
+                    <div>
+                        <p class="text-slate-400 text-sm mb-1">고객센터 (평일 09:00~18:00)</p>
+                        <a href="tel:010-5310-0347" class="text-3xl font-bold text-orange-400 hover:text-orange-300 transition">010-5310-0347</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full lg:w-1/2 relative min-h-[400px] bg-slate-800">
+            <div id="map" class="absolute inset-0 w-full h-full z-0"></div>
+            
+            <button id="my-loc-btn" class="absolute bottom-6 left-6 z-10 bg-orange-500 text-white px-4 py-3 rounded-lg shadow-lg text-sm font-bold flex items-center gap-2 hover:bg-orange-600 transition transform hover:-translate-y-1">
+                <span>📍 내 위치 보기</span>
+            </button>
+        </div>
+    </section>
+
+    <footer class="bg-slate-950 text-slate-400 py-12 text-sm border-t border-slate-900 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-start mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-white mb-4">다연OA시스템</h2>
+                    <p class="mb-1">대표: 임규혁 | 사업자등록번호: 123-45-67890</p>
+                    <p>주소: 경기도 광주시 탄번길 31번길 28-1</p>
+                </div>
+                <div class="flex gap-6 mt-6 md:mt-0">
+                    <a href="#" class="hover:text-white transition">이용약관</a>
+                    <a href="#" class="hover:text-white transition">개인정보처리방침</a>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-slate-900 text-xs text-slate-600 flex justify-between">
+                <p>Copyright © 2025 Dayeon OA System. All rights reserved.</p>
+                <p>Designed by AI Gemini</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="fixed bottom-6 right-6 flex flex-col gap-3 z-40">
+        <a href="tel:010-5310-0347" class="w-14 h-14 bg-orange-500 rounded-full flex items-center justify-center text-white shadow-xl hover:bg-orange-600 transition hover:-translate-y-1 animate-bounce" title="전화상담">
+            📞
+        </a>
+        <button onclick="window.scrollTo(0,0)" class="w-12 h-12 bg-white text-slate-800 rounded-full flex items-center justify-center shadow-lg hover:bg-slate-50 transition border border-slate-100" title="맨 위로">
+            ↑
         </button>
+    </div>
 
-        <ul class="space-y-6 text-lg font-bold text-black-800">
-          <li><a href="index.html" class="block">홈</a></li>
-          <li><a href="small-color.html" class="block">소형컬러복합기 (A4)</a></li>
-          <li><a href="large-color.html" class="block">대형컬러복합기 (A4)</a></li>
-          <li><a href="small-bw.html" class="block">소형흑백복합기 (A3)</a></li>
-          <li><a href="large-bw.html" class="block">대형흑백복합기 (A3)</a></li>
-          <li><a href="event.html" class="block">이벤트</a></li>
-          <li><a href="installation.html" class="block">설치사례</a></li>
-          <li class="mt-6 text-black-600 font-semibold whitespace-nowrap">문의: 010-3794-8363 (평일 09:00~18:00)</li>
-        </ul>
-      </div>
-    </nav>
+    <div id="mobile-menu" class="fixed inset-0 bg-white z-[60] transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-6 flex justify-end">
+            <button id="mobile-close" class="text-slate-500 p-2">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div class="px-8 flex flex-col gap-6 text-xl font-bold text-slate-800">
+            <a href="index.html" class="hover:text-orange-500">홈</a>
+            <div class="h-px bg-slate-100"></div>
+            <a href="ink-small-color.html" class="hover:text-orange-500">잉크젯 복합기</a>
+            <a href="lazer-large-color.html" class="hover:text-orange-500">레이저 복합기</a>
+            <a href="paper-shredder.html" class="hover:text-orange-500">문서세단기</a>
+            <div class="h-px bg-slate-100"></div>
+            <a href="event.html" class="hover:text-orange-500">이벤트</a>
+            <a href="installation.html" class="hover:text-orange-500">설치사례</a>
+            <a href="tel:010-5310-0347" class="mt-4 text-orange-500">📞 010-5310-0347</a>
+        </div>
+    </div>
 
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=d95535d2134a278b616878a272064d7b"></script>
     <script>
-      const menuBtn = document.getElementById('menu-btn');
-      const mobileMenu = document.getElementById('mobile-menu');
-      const menuCloseBtn = document.getElementById('menu-close-btn');
+        // 1. 헤더 스크롤 효과
+        const header = document.getElementById('main-header');
+        const logoBox = document.querySelector('.logo-box');
+        const logoText = document.querySelector('.logo-text');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const menuBtn = document.getElementById('menu-btn');
 
-      menuBtn.addEventListener('click', () => {
-        mobileMenu.classList.remove('-translate-x-full');
-      });
-      menuCloseBtn.addEventListener('click', () => {
-        mobileMenu.classList.add('-translate-x-full');
-      });
-    </script>
-  </header>
-
-  <section class="w-full relative overflow-hidden">
-    <!-- 슬라이드 컨테이너 -->
-    <div id="slider" class="flex transition-transform duration-1000 ease-in-out">
-      <img src="https://mirae-oa.com/images/banner1-1.png" class="w-full flex-shrink-0" alt="배너 1">
-      <img src="https://mirae-oa.com/images/banner1-3.png" class="w-full flex-shrink-0" alt="배너 3">
-      <img src="https://mirae-oa.com/images/banner1-2.png" class="w-full flex-shrink-0" alt="배너 3">
-    </div>
-
-    <!-- 왼쪽 버튼 -->
-    <button onclick="slide(-1)" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 shadow">
-      <svg class="w-6 h-6 text-black-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-      </svg>
-    </button>
-
-    <!-- 오른쪽 버튼 -->
-    <button onclick="slide(1)" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 shadow">
-      <svg class="w-6 h-6 text-black-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-      </svg>
-    </button>
-  </section>
-
-  <section id="about" class="py-20 bg-white">
-    <div class="max-w-5xl mx-auto px-6 text-center">
-      <h3 class="text-3xl font-bold text-black-800 mb-6">회사소개</h3>
-      <p class="text-black-600 leading-relaxed text-lg">
-        전국 복합기 렌탈 전문 기업으로, 중소기업, 병원, 학원 등 다양한 업종에 맞춤형 서비스를 제공합니다.<br />
-        고객 만족을 최우선으로 생각하며, 정직한 가격과 신속한 A/S로 신뢰를 쌓아가고 있습니다.
-      </p>
-    </div>
-  </section>
-
-  <!-- 구분선 -->
-  <div class="border-t border-gray-400 my-12"></div>
-
-  <!-- 카카오 지도 섹션 -->
-  <section id="location" style="position: relative; z-index: 0;">
-    <h3 class="text-2xl font-bold text-black-800 mb-6 text-center">오시는 길</h3>
-    <div id="map"
-        style="width: 60%; height: 400px; margin: 0 auto; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                position: relative; max-width: 900px; z-index: 1;">
-    </div>
-  </section>
-
-  <section class="max-w-7xl mx-auto px-6 py-12">
-    <h2 class="text-3xl font-bold text-center mb-2">베스트 상품</h2>
-    <p class="text-center text-black-500 mb-12">가장 많이 렌탈하는 상품 모음</p>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-      <!-- 상품 1 -->
-<!-- 상품 1 -->
-<a href="product-detail.html?id=HP9010" class="block">
-  <article class="bg-white rounded-lg shadow-lg hover:shadow-xl hover:ring-2 hover:ring-black hover:ring-opacity-20 transition-all duration-300 cursor-pointer">
-    <div class="p-4 flex justify-center">
-      <img src="https://mirae-oa.com/images/HP9010.png" alt="HP9010 잉크젯 컬러러복합기"
-        class="w-full sm:w-60 md:w-80 lg:w-96 h-40 sm:h-48 md:h-56 lg:h-60 object-contain bg-white mx-auto" />
-    </div>
-    <div class="px-4 sm:px-6 pb-4 sm:pb-6 text-center space-y-2">
-      <div class="flex justify-center flex-wrap gap-2 mb-2">
-        <span class="text-xs font-semibold px-2 py-1 bg-green-400 text-white rounded">컬러</span>
-        <span class="text-xs font-semibold px-2 py-1 bg-purple-500 text-white rounded">추천</span>
-        <span class="text-xs font-semibold px-2 py-1 bg-blue-400 text-white rounded">BEST</span>
-        <span class="text-xs font-semibold px-2 py-1 bg-pink-500 text-white rounded">NEW</span>
-      </div>
-      <h3 class="text-base sm:text-lg font-semibold">HP9010 잉크젯 컬러복합기</h3>
-      <p class="text-sm text-black-500">모델명 : HP-9010<br>자동양면인쇄 / 해상도 1200dpi</p>
-      <p class="mt-2 sm:mt-4 text-lg sm:text-xl font-bold text-red-600">28,000원</p>
-    </div>
-  </article>
-</a>
-
-<!-- 상품 2 -->
-<a href="product-detail.html?id=GX7192" class="block">
-  <article class="bg-white rounded-lg shadow-lg hover:shadow-xl hover:ring-2 hover:ring-black hover:ring-opacity-20 transition-all duration-300 cursor-pointer">
-    <div class="p-4 flex justify-center">
-      <img src="https://mirae-oa.com/images/GX7192-1.jpg" alt="캐논 GX7192 컬러복합기"
-        class="w-full sm:w-60 md:w-80 lg:w-96 h-40 sm:h-48 md:h-56 lg:h-60 object-contain bg-white mx-auto" />
-    </div>
-    <div class="px-4 sm:px-6 pb-4 sm:pb-6 text-center space-y-2">
-      <div class="flex justify-center flex-wrap gap-2 mb-2">
-        <span class="text-xs font-semibold px-2 py-1 bg-green-400 text-white rounded">컬러</span>
-        <span class="text-xs font-semibold px-2 py-1 bg-purple-500 text-white rounded">추천</span>
-        <span class="text-xs font-semibold px-2 py-1 bg-pink-600 text-white rounded">HOT</span>
-      </div>
-      <h3 class="text-base sm:text-lg font-semibold">캐논 GX7192 컬러복합기</h3>
-      <p class="text-sm text-black-500">모델명 : 캐논-GX7192<br>자동양면인쇄 / 해상도 1200dpi</p>
-      <p class="mt-2 sm:mt-4 text-lg sm:text-xl font-bold text-red-600">30,000원</p>
-    </div>
-  </article>
-</a>
-
-<!-- 상품 3 -->
-<a href="product-detail.html?id=C3322" class="block">
-  <article class="bg-white rounded-lg shadow-lg hover:shadow-xl hover:ring-2 hover:ring-black hover:ring-opacity-20 transition-all duration-300 cursor-pointer">
-    <div class="p-4 flex justify-center">
-      <img src="https://mirae-oa.com/images/C3322.png" alt="캐논 IR C3322 컬러 복합기"
-        class="w-full sm:w-60 md:w-80 lg:w-96 h-40 sm:h-48 md:h-56 lg:h-60 object-contain bg-white mx-auto" />
-    </div>
-    <div class="px-4 sm:px-6 pb-4 sm:pb-6 text-center space-y-2">
-      <div class="flex justify-center flex-wrap gap-2 mb-2">
-        <span class="text-xs font-semibold px-2 py-1 bg-green-400 text-white rounded">컬러</span>
-        <span class="text-xs font-semibold px-2 py-1 bg-blue-400 text-white rounded">BEST</span>
-        <span class="text-xs font-semibold px-2 py-1 bg-pink-600 text-white rounded">HOT</span>
-      </div>
-      <h3 class="text-base sm:text-lg font-semibold">캐논IR C3322 컬러복합기</h3>
-      <p class="text-sm text-black-500">모델명 : 캐논 IR-C3322<br>자동양면인쇄 / 해상도 1200dpi</p>
-      <p class="mt-2 sm:mt-4 text-lg sm:text-xl font-bold text-red-600">49,000원</p>
-    </div>
-  </article>
-</a>
-
-<!-- 상품 4 -->
-<a href="product-detail.html?id=C3922" class="block">
-  <article class="bg-white rounded-lg shadow-lg hover:shadow-xl hover:ring-2 hover:ring-black hover:ring-opacity-20 transition-all duration-300 cursor-pointer">
-    <div class="p-4 flex justify-center">
-      <img src="https://mirae-oa.com/images/C3922.png" alt="캐논IR C3922 컬러복합기"
-        class="w-full sm:w-60 md:w-80 lg:w-96 h-40 sm:h-48 md:h-56 lg:h-60 object-contain bg-white mx-auto" />
-    </div>
-    <div class="px-4 sm:px-6 pb-4 sm:pb-6 text-center space-y-2">
-      <div class="flex justify-center flex-wrap gap-2 mb-2">
-        <span class="text-xs font-semibold px-2 py-1 bg-green-400 text-white rounded">컬러</span>
-        <span class="text-xs font-semibold px-2 py-1 bg-blue-900 text-white rounded">특가</span>
-      </div>
-      <h3 class="text-base sm:text-lg font-semibold">캐논IR C3922 컬러복합기</h3>
-      <p class="text-sm text-black-500">모델명 : 캐논IR C3922 컬러복합기<br>속도 25매 / 해상도 1200dpi</p>
-      <p class="mt-2 sm:mt-4 text-lg sm:text-xl font-bold text-red-600">69,000원</p>
-    </div>
-  </article>
-</a>
-
-    </div>
-  </section>
-
-  <!-- 서비스 -->
-  <section id="service" class="py-20 bg-gray-50">
-    <div class="max-w-6xl mx-auto px-6">
-      <h3 class="text-3xl font-bold text-center text-black-800 mb-12">주요 서비스</h3>
-      <div class="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
-        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
-          <h4 class="text-xl font-semibold mb-3 text-blue-600">복합기 렌탈</h4>
-          <p class="text-black-600">사무 환경에 맞는 다양한 기종의 복합기를 저렴하게 제공합니다.</p>
-        </div>
-        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
-          <h4 class="text-xl font-semibold mb-3 text-blue-600">정기 점검 및 A/S</h4>
-          <p class="text-black-600">정기적인 유지보수와 신속한 A/S로 업무의 연속성을 보장합니다.</p>
-        </div>
-        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
-          <h4 class="text-xl font-semibold mb-3 text-blue-600">맞춤 컨설팅</h4>
-          <p class="text-black-600">기업 환경에 최적화된 기기 선택과 요금제를 제안드립니다.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 구분선 -->
-  <div class="border-t border-gray-200 my-12"></div>
-
-  <!-- Footer -->
-  <footer class="bg-gray-800 text-white py-8 mt-20">
-    <div class="max-w-6xl mx-auto px-6 text-center text-sm space-y-2">
-      <p>(주) 미래OA하이테크 | 대표: 김성식</p>
-      <p>사업자등록번호: 123-45-67890 | 대표번호: 010-3794-8363</p>
-      <p>주소: 경기도 시흥시 조남동 719-1</p>
-      <p class="text-black-400 text-xs">Copyright © 2025 미래OA하이테크. All rights reserved.</p>
-    </div>
-  </footer>
-  <!-- 슬라이더 스크립트 -->
- <script>
-    let index = 0;
-    const slider = document.getElementById('slider');
-    const slides = slider.children;
-    function slide(n) {
-      index = (index + n + slides.length) % slides.length;
-      slider.style.transform = `translateX(-${index * 100}%)`;
-    }
-    setInterval(() => slide(1), 5000);
-  </script>
-
-  <script>
-    const swiper = new Swiper('.swiper', {
-      loop: true,
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    });
-  </script>
-<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=d95535d2134a278b616878a272064d7b"></script>
-<script>
-window.addEventListener("DOMContentLoaded", function () {
-  if (typeof kakao === "undefined" || !kakao.maps) {
-    console.error("❌ Kakao SDK 로딩 실패");
-    return;
-  }
-
-    const container = document.getElementById("map");
-    if (!container) return;
-
-    // 기본 지도 옵션
-    const options = {
-      center: new kakao.maps.LatLng(37.37711, 126.80510),
-      level: 4
-    };
-
-    // 지도 생성
-    const map = new kakao.maps.Map(container, options);
-
-    // 확대/축소 컨트롤 추가
-    const zoomControl = new kakao.maps.ZoomControl();
-    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-    // 지도 타입 전환 컨트롤 추가 (일반 ↔ 스카이뷰)
-    const mapTypeControl = new kakao.maps.MapTypeControl();
-    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-
-    // 회사 위치 마커 생성
-    const markerPosition = new kakao.maps.LatLng(37.37711, 126.80510);
-    const marker = new kakao.maps.Marker({
-      position: markerPosition,
-      map: map
-    });
-
-    // 정보창 내용
-    const infoContent = `
-      <div style="padding:10px; font-size:13px; line-height:1.4;">
-        <strong>미래OA하이테크</strong><br>
-        경기도 시흥시 조남동 719-1<br>
-        ☎ 010-3794-8363
-      </div>`;
-    const infoWindow = new kakao.maps.InfoWindow({
-      content: infoContent
-    });
-
-    // 마커 클릭 시 정보창 열기/닫기
-    kakao.maps.event.addListener(marker, 'click', function() {
-      infoWindow.open(map, marker);
-    });
-
-    // ✅ 내 위치로 이동 버튼 생성
-    const customButton = document.createElement("button");
-    customButton.textContent = "📍 내 위치 보기";
-    customButton.style.cssText = `
-      position:absolute;
-      bottom:15px;
-      left:15px;
-      z-index:10;
-      background:#2563eb;
-      color:#fff;
-      border:none;
-      padding:8px 12px;
-      border-radius:6px;
-      font-size:13px;
-      cursor:pointer;
-      box-shadow:0 2px 6px rgba(0,0,0,0.2);
-    `;
-    container.appendChild(customButton);
-
-    // 클릭 시 내 위치로 이동
-    customButton.addEventListener("click", () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(pos => {
-          const lat = pos.coords.latitude;
-          const lng = pos.coords.longitude;
-          const loc = new kakao.maps.LatLng(lat, lng);
-          map.setCenter(loc);
-
-          const myMarker = new kakao.maps.Marker({
-            position: loc,
-            map: map,
-            title: "내 위치"
-          });
-
-          // 툴팁 표시
-          const myInfo = new kakao.maps.InfoWindow({
-            content: '<div style="padding:5px;font-size:12px;">현재 위치</div>'
-          });
-          myInfo.open(map, myMarker);
-        }, () => {
-          alert("위치 접근이 거부되었습니다 😥");
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('header-scrolled');
+                logoText.classList.remove('text-white', 'drop-shadow-md');
+                logoText.classList.add('text-slate-900');
+                logoBox.classList.remove('bg-white/10', 'text-white');
+                logoBox.classList.add('bg-orange-500', 'text-white');
+                menuBtn.classList.remove('text-white', 'drop-shadow-md');
+                menuBtn.classList.add('text-slate-900');
+                navLinks.forEach(el => {
+                    el.classList.remove('text-white', 'drop-shadow-md');
+                    el.classList.add('text-slate-600');
+                });
+            } else {
+                header.classList.remove('header-scrolled');
+                logoText.classList.add('text-white', 'drop-shadow-md');
+                logoText.classList.remove('text-slate-900');
+                logoBox.classList.add('bg-white/10', 'text-white');
+                logoBox.classList.remove('bg-orange-500', 'text-white');
+                menuBtn.classList.add('text-white', 'drop-shadow-md');
+                menuBtn.classList.remove('text-slate-900');
+                navLinks.forEach(el => {
+                    el.classList.add('text-white', 'drop-shadow-md');
+                    el.classList.remove('text-slate-600');
+                });
+            }
         });
-      } else {
-        alert("이 브라우저는 위치 서비스를 지원하지 않습니다.");
-      }
-    });
-});
-</script>
 
+        // 2. Swiper 슬라이더 설정
+        const swiper = new Swiper(".mySwiper", {
+            loop: true,
+            autoplay: { delay: 4000, disableOnInteraction: false },
+            pagination: { el: ".swiper-pagination", clickable: true },
+            effect: 'fade',
+            fadeEffect: { crossFade: true },
+        });
 
-<!-- 챗봇/고객센터 위젯 -->
-<div id="cs-widget" class="fixed bottom-24 right-6 w-80 bg-white rounded-lg shadow-xl border z-50 transform translate-y-full opacity-0 transition-all duration-300">
-  <div class="p-4 border-b bg-teal-600 text-white rounded-t-lg flex justify-between items-center">
-    <h3 class="text-lg font-bold">고객센터 안내</h3>
-    <button id="cs-close" class="text-white hover:text-red-300 text-xl">&times;</button>
-  </div>
-  <div class="p-4 space-y-4 text-sm">
-    <div>
-      <p class="font-semibold">📞 전화문의</p>
-      <a href="tel:010-3794-8363" class="text-blue-600 hover:underline">010-3794-8363</a>
-    </div>
-    <div>
-      <p class="font-semibold">💬 카카오톡 상담</p>
-      <a href="https://pf.kakao.com/_yourID" target="_blank" class="text-blue-600 hover:underline">카톡으로 상담하기</a>
-    </div>
-    <div>
-      <p class="font-semibold">🕒 상담 가능 시간</p>
-      <p>평일 09:00 ~ 18:00<br>점심시간 12:00 ~ 13:00</p>
-    </div>
-    <div>
-      <p class="font-semibold">❓ 자주 묻는 질문</p>
-      <ul class="space-y-1">
-        <li><button class="cs-question text-left text-black-800 hover:text-teal-600">렌탈과 구매 중 뭐가 더 유리한가요?</button></li>
-        <li><button class="cs-question text-left text-black-800 hover:text-teal-600">렌탈하면 A/S는 어떻게 돼요?</button></li>
-        <li><button class="cs-question text-left text-black-800 hover:text-teal-600">단기 렌탈도 가능한가요?</button></li>
-      </ul>
-      <div id="cs-answer" class="text-black-700 mt-3 font-medium hidden"></div>
-    </div>
-  </div>
-</div>
-<script>
-  const widget = document.getElementById("cs-widget");
-  const toggleBtn = document.getElementById("cs-toggle");
-  const closeBtn = document.getElementById("cs-close");
-  const answerBox = document.getElementById("cs-answer");
+        // 3. 모바일 메뉴
+        const mobileMenu = document.getElementById('mobile-menu');
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-full');
+        });
+        document.getElementById('mobile-close').addEventListener('click', () => {
+            mobileMenu.classList.add('translate-x-full');
+        });
 
-  toggleBtn.addEventListener("click", () => {
-    widget.classList.toggle("translate-y-full");
-    widget.classList.toggle("opacity-0");
-  });
+        // 4. ✅ 카카오 지도 (기능 풀옵션 부활)
+        window.addEventListener("DOMContentLoaded", function () {
+            if (typeof kakao === "undefined" || !kakao.maps) {
+                console.error("Kakao Maps API 로드 실패");
+                return;
+            }
 
-  closeBtn.addEventListener("click", () => {
-    widget.classList.add("translate-y-full");
-    widget.classList.add("opacity-0");
-  });
+            const container = document.getElementById("map");
+            const options = { center: new kakao.maps.LatLng(37.37711, 126.80510), level: 4 };
+            const map = new kakao.maps.Map(container, options);
+            
+            // ✅ 컨트롤 추가 (확대축소, 스카이뷰)
+            const zoomControl = new kakao.maps.ZoomControl();
+            map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+            const mapTypeControl = new kakao.maps.MapTypeControl();
+            map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
 
-  const answers = {
-    "렌탈과 구매 중 뭐가 더 유리한가요?": "월 1,000매 이상 출력 시 렌탈을 추천드리며, 그 이하일 경우 구매가 유리합니다.",
-    "렌탈하면 A/S는 어떻게 돼요?": "렌탈 기간 동안 무상 A/S가 제공되며, 24시간 이내 방문 처리됩니다.",
-    "단기 렌탈도 가능한가요?": "네, 최소 3개월부터 단기 렌탈이 가능하며 요금도 유연하게 적용됩니다."
-  };
+            // ✅ 마커 생성
+            const markerPosition = new kakao.maps.LatLng(37.37711, 126.80510);
+            const marker = new kakao.maps.Marker({ position: markerPosition, map: map });
 
-  document.querySelectorAll(".cs-question").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const question = btn.textContent.trim();
-      answerBox.textContent = answers[question] || "답변을 준비 중입니다.";
-      answerBox.classList.remove("hidden");
-    });
-  });
-</script>
+            // ✅ 인포윈도우 (말풍선) 생성 - 텍스트 색상은 검정으로 해야 잘 보임
+            const infoContent = `
+                <div style="padding:10px; font-size:13px; color:#333; line-height:1.4; min-width:150px;">
+                  <strong style="color:#f97316; font-size:14px;">다연OA시스템</strong><br>
+                  경기 광주시 탄번길 31번길 28-1<br>
+                  <b>☎ 010-5310-0347</b>
+                </div>`;
+            const infoWindow = new kakao.maps.InfoWindow({ content: infoContent });
+            infoWindow.open(map, marker);
+
+            // ✅ 내 위치 보기 버튼 기능
+            document.getElementById('my-loc-btn').addEventListener('click', () => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(pos => {
+                        const loc = new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+                        map.setCenter(loc);
+                        
+                        // 내 위치 마커 표시
+                        new kakao.maps.Marker({ 
+                            position: loc, 
+                            map: map, 
+                            title: "현재 내 위치" 
+                        });
+                        alert("현재 위치로 이동했습니다 📍");
+                    }, () => {
+                        alert("위치 정보를 가져올 수 없습니다. 브라우저 설정을 확인해주세요.");
+                    });
+                } else {
+                    alert("이 브라우저는 위치 정보를 지원하지 않습니다.");
+                }
+            });
+        });
+    </script>
 </body>
 </html>
