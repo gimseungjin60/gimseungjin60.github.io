@@ -418,6 +418,23 @@
       <p class="text-black-400 text-xs">Copyright © 2025 미래OA하이테크. All rights reserved.</p>
     </div>
   </footer>
+  <button id="go-navi"
+  style="
+    position:absolute; 
+    bottom:60px; 
+    left:15px; 
+    z-index:10; 
+    padding:8px 12px; 
+    background:#10b981; 
+    color:white; 
+    border:none; 
+    border-radius:6px;
+    font-size:13px; 
+    cursor:pointer;
+  ">
+  📍 미래OA 길찾기
+</button>
+
   <!-- 슬라이더 스크립트 -->
  <script>
     let index = 0;
@@ -451,7 +468,6 @@
 <script>
 window.addEventListener("DOMContentLoaded", function () {
 
-  // 카카오 로드 확인
   if (typeof kakao === "undefined" || !kakao.maps) {
     console.error("❌ Kakao SDK 로딩 실패");
     return;
@@ -460,59 +476,48 @@ window.addEventListener("DOMContentLoaded", function () {
   const container = document.getElementById("map");
   if (!container) return;
 
-  // ⭐ 도착 위치
-  const arrivalLat = 37.378635;
-  const arrivalLng = 126.867181;
-  const arrivalPosition = new kakao.maps.LatLng(arrivalLat, arrivalLng);
+  /* 📍 위치 데이터 */
+  const arrivalPosition = new kakao.maps.LatLng(37.378635, 126.867181);  // 도착 위치
+  const companyPosition = new kakao.maps.LatLng(37.37711, 126.80510);   // 회사 위치
 
-  // ⭐ 지도 생성
+  /* ---------------------------------------------------------
+      🗺 지도 생성
+  --------------------------------------------------------- */
   const map = new kakao.maps.Map(container, {
     center: arrivalPosition,
     level: 4
   });
 
-  // 컨트롤 추가
   map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
   map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
 
   /* ---------------------------------------------------------
-      🔴 도착 마커 (정품 빨간색 마커)
-      URL 실존 확인됨
+      🔴 도착 마커 (정품 red)
   --------------------------------------------------------- */
-  const arrivalImg = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png";
-  const arrivalSize = new kakao.maps.Size(36, 36);
-  const arrivalOffset = new kakao.maps.Point(18, 36);
-
-  const arrivalMarkerImage = new kakao.maps.MarkerImage(arrivalImg, arrivalSize, {
-    offset: arrivalOffset
-  });
-
-  new kakao.maps.Marker({
+  const arrivalMarker = new kakao.maps.Marker({
     position: arrivalPosition,
-    image: arrivalMarkerImage,
+    image: new kakao.maps.MarkerImage(
+      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png",
+      new kakao.maps.Size(36, 36),
+      { offset: new kakao.maps.Point(18, 36) }
+    ),
     map: map
   });
 
   /* ---------------------------------------------------------
-      🔵 회사 마커 (정품 파란 별 마커)
-      URL 실존 확인됨
+      🔵 회사 마커 (정품 star)
   --------------------------------------------------------- */
-  const companyPosition = new kakao.maps.LatLng(37.37711, 126.80510);
-
-  const companyImg = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-  const companySize = new kakao.maps.Size(36, 36);
-  const companyOffset = new kakao.maps.Point(18, 36);
-
-  const companyMarkerImage = new kakao.maps.MarkerImage(companyImg, companySize, {
-    offset: companyOffset
-  });
-
   const companyMarker = new kakao.maps.Marker({
     position: companyPosition,
-    image: companyMarkerImage,
+    image: new kakao.maps.MarkerImage(
+      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
+      new kakao.maps.Size(36, 36),
+      { offset: new kakao.maps.Point(18, 36) }
+    ),
     map: map
   });
 
+  /* 회사 정보창 */
   const companyInfo = new kakao.maps.InfoWindow({
     content: `
       <div style="padding:10px; font-size:13px;">
@@ -527,16 +532,29 @@ window.addEventListener("DOMContentLoaded", function () {
   });
 
   /* ---------------------------------------------------------
-      🟢 내 위치 보기 버튼 (정품 초록 마커)
-      URL 실존 확인됨
+      🟦 길찾기 버튼 (카카오맵 연결)
   --------------------------------------------------------- */
-  const myButton = document.createElement("button");
-  myButton.textContent = "📍 내 위치 보기";
-  myButton.style.cssText =
-    "position:absolute; bottom:15px; left:15px; z-index:10; padding:8px 12px; background:#2563eb; color:white; border:none; border-radius:6px; font-size:13px; cursor:pointer;";
-  container.appendChild(myButton);
+  const naviBtn = document.createElement("button");
+  naviBtn.textContent = "🧭 미래OA 길찾기";
+  naviBtn.style.cssText =
+    "position:absolute; bottom:60px; left:15px; z-index:10; padding:8px 12px; background:#10b981; color:white; border:none; border-radius:6px; font-size:13px; cursor:pointer;";
+  container.appendChild(naviBtn);
 
-  myButton.addEventListener("click", () => {
+  naviBtn.addEventListener("click", () => {
+    const url = `https://map.kakao.com/link/to/${encodeURIComponent("미래OA하이테크")},37.37711,126.80510`;
+    window.open(url, "_blank");
+  });
+
+  /* ---------------------------------------------------------
+      📍 내 위치 버튼
+  --------------------------------------------------------- */
+  const myBtn = document.createElement("button");
+  myBtn.textContent = "📍 내 위치 보기";
+  myBtn.style.cssText =
+    "position:absolute; bottom:15px; left:15px; z-index:10; padding:8px 12px; background:#2563eb; color:white; border:none; border-radius:6px; font-size:13px; cursor:pointer;";
+  container.appendChild(myBtn);
+
+  myBtn.addEventListener("click", () => {
     if (!navigator.geolocation) {
       alert("브라우저가 위치 서비스를 지원하지 않습니다.");
       return;
@@ -547,23 +565,15 @@ window.addEventListener("DOMContentLoaded", function () {
         const loc = new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
         map.setCenter(loc);
 
-        const myImg = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-        const mySize = new kakao.maps.Size(36, 36);
-        const myOffset = new kakao.maps.Point(18, 36);
-
-        const myMarkerImage = new kakao.maps.MarkerImage(myImg, mySize, {
-          offset: myOffset
-        });
-
-        const myMarker = new kakao.maps.Marker({
+        new kakao.maps.Marker({
           position: loc,
-          image: myMarkerImage,
+          image: new kakao.maps.MarkerImage(
+            "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_blue.png",
+            new kakao.maps.Size(36, 36),
+            { offset: new kakao.maps.Point(18, 36) }
+          ),
           map: map
         });
-
-        new kakao.maps.InfoWindow({
-          content: '<div style="padding:5px;font-size:12px;">현재 위치</div>'
-        }).open(map, myMarker);
       },
       () => alert("위치 접근이 거부되었습니다 😥")
     );
