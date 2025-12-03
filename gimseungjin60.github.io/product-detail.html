@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>제품 상세페이지 | 미래OA하이테크</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; background-color: #fff; color: #1f2937; }
+    /* 드롭다운 메뉴 보이기 */
+    nav ul li.relative:hover > ul,
+    nav ul li.relative ul:hover {
+      opacity: 1 !important; visibility: visible !important; pointer-events: auto !important;
+    }
+    nav ul li.relative ul { margin-top: 0 !important; }
+    .fade-section { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+    .fade-section.visible { opacity: 1; transform: translateY(0); }
+  .breadcrumbs {
+    font-size: 20px;
+    color: #000000; /* 기본: gray-700 */
+  }
+  .breadcrumbs a {
+    color: #000000;
+    transition: color 0.2s ease-in-out;
+  }
+  .breadcrumbs a:hover {
+    color: #0f7d94; /* 마우스 오버 시 파란색 */
+    text-decoration: underline;
+  }
+
+
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <!-- HEADER -->
+    <header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+      <!-- 로고 & 홈 링크 -->
+      <a href="index.html" class="flex items-center space-x-3">
+        <img src="https://mirae-oa.com/images/oalogo.jpg" alt="회사 로고" class="h-20" />
+      </a>
+      
+      <!-- PC용 네비게이션 -->
+      <nav class="hidden sm:block">
+        <ul class="flex space-x-10 text-base font-bold text-gray-800">
+          <li>
+            <a href="index.html" class="hover:text-blue-600 transition whitespace-nowrap">홈</a>
+          </li>
+          <!-- 잉크젯복합기 -->
+          <li class="relative group">
+            <a href="#" class="hover:text-blue-600 transition inline-block whitespace-nowrap">잉크젯복합기</a>
+            <ul
+              class="absolute left-0 top-full mt-2 w-60 bg-white shadow-lg rounded-md py-2
+                     opacity-0 invisible
+                     group-hover:opacity-100 group-hover:visible
+                     hover:opacity-100 hover:visible
+                     pointer-events-none group-hover:pointer-events-auto hover:pointer-events-auto
+                     transition duration-200"
+            >
+              <li>
+                <a href="ink-small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러소형복합기(A4)</a>
+              </li>
+              <li>
+                <a href="ink-large-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러대형복합기(A3)</a>
+              </li>
+            </ul>
+          </li>
+          <!-- 레이저복합기 -->
+          <li class="relative group">
+            <a href="#" class="hover:text-blue-600 transition inline-block whitespace-nowrap">레이저복합기</a>
+            <ul
+              class="absolute left-0 top-full mt-2 w-60 bg-white shadow-lg rounded-md py-2
+                     opacity-0 invisible
+                     group-hover:opacity-100 group-hover:visible
+                     hover:opacity-100 hover:visible
+                     pointer-events-none group-hover:pointer-events-auto hover:pointer-events-auto
+                     transition duration-200"
+            >
+              <li>
+                <a href="lazer-small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러소형복합기(A4)</a>
+              </li>
+              <li>
+                <a href="lazer-large-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러대형복합기(A3)</a>
+              </li>
+              <li>
+                <a href="lazer-small-bw.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">흑백소형복합기(A4)</a>
+              </li>
+              <li>
+                <a href="lazer-large-bw.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">흑백대형복합기(A3)</a>
+              </li>
+            </ul>
+          </li>
+          <!-- 문서세단기 -->
+          <li class="relative group">
+            <a href="#" class="hover:text-blue-600 transition inline-block whitespace-nowrap">문서세단기</a>
+            <ul
+              class="absolute left-0 top-full mt-2 w-60 bg-white shadow-lg rounded-md py-2
+                     opacity-0 invisible
+                     group-hover:opacity-100 group-hover:visible
+                     hover:opacity-100 hover:visible
+                     pointer-events-none group-hover:pointer-events-auto hover:pointer-events-auto
+                     transition duration-200"
+            >
+              <li>
+                <a href="small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">문서세단기</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="event.html" class="hover:text-blue-600 transition whitespace-nowrap">이벤트</a></li>
+          <li><a href="installation.html" class="hover:text-blue-600 transition whitespace-nowrap">설치사례</a></li>
+        </ul>
+      </nav>
+    
+      <!-- PC용 연락처 -->
+      <div class="hidden sm:block text-gray-600 font-semibold whitespace-nowrap">
+        <span>문의: 010-3794-8363 (평일 09:00~18:00)</span>
+      </div>
+    
+      <!-- 모바일 햄버거 버튼 -->
+      <button id="menu-btn" class="sm:hidden focus:outline-none text-gray-800" aria-label="메뉴 열기" aria-expanded="false">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    
+      <!-- 모바일 메뉴 -->
+      <nav id="mobile-menu" class="sm:hidden fixed top-0 left-0 w-full h-full bg-white z-40 transform -translate-x-full transition-transform duration-300">
+        <div class="px-6 py-8">
+          <button id="menu-close-btn" class="mb-8 text-gray-800 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+    
+          <ul class="space-y-6 text-lg font-bold text-gray-800">
+            <li><a href="index.html" class="block">홈</a></li>
+            <li><a href="small-color.html" class="block">소형컬러복합기 (A4)</a></li>
+            <li><a href="large-color.html" class="block">대형컬러복합기 (A4)</a></li>
+            <li><a href="small-bw.html" class="block">소형흑백복합기 (A3)</a></li>
+            <li><a href="large-bw.html" class="block">대형흑백복합기 (A3)</a></li>
+            <li><a href="event.html" class="block">이벤트</a></li>
+            <li><a href="installation.html" class="block">설치사례</a></li>
+            <li class="mt-6 text-gray-600 font-semibold whitespace-nowrap">문의: 010-3794-8363 (평일 09:00~18:00)</li>
+          </ul>
+        </div>
+      </nav>
+    
+      <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuCloseBtn = document.getElementById('menu-close-btn');
+    
+        // 메뉴 열기
+        menuBtn.addEventListener('click', () => {
+          mobileMenu.classList.remove('-translate-x-full');
+          mobileMenu.classList.add('translate-x-0');
+        });
+    
+        // 메뉴 닫기
+        menuCloseBtn.addEventListener('click', () => {
+          mobileMenu.classList.add('-translate-x-full');
+          mobileMenu.classList.remove('translate-x-0');
+        });
+      </script>
+    </div>
+  </header>
+
+  <!-- MAIN: 제품 상세 -->
+<main id="product-wrapper" style="display: none;" class="flex-1 max-w-7xl mx-auto px-6 py-12">
+  <!-- 빵부스러기 -->
+<div id="breadcrumbs" class="breadcrumbs text-sm text-gray-600 mb-6"></div>
+
+  <!-- 제품 상세 영역 -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+    <!-- 왼쪽: 이미지 갤러리 -->
+    <div>
+      <img
+        id="main-image"
+        src=""
+        alt="제품 이미지"
+        class="rounded-lg border w-full object-contain"
+      />
+      <div class="mt-4 flex space-x-4"></div>
+    </div>
+
+    <!-- 오른쪽: 정보 박스 -->
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-bold"></h2>
+      <div class="flex flex-wrap gap-2 mt-2"></div>
+      <p class="mt-3 text-gray-600"></p>
+      <table class="w-full mt-6 table-auto border-collapse text-left">
+        <tbody>
+          
+        </tbody>
+      </table>
+      <div class="mt-6 flex items-center justify-between">
+        <div></div>
+        <div class="text-right">
+          <span class="text-gray-600 mr-2">총 금액</span>
+          <span class="text-3xl font-extrabold text-teal-600"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- 상세 설명 -->
+<section id="product-detail-info" class="fade-section px-6 py-12 max-w-7xl mx-auto">
+  <div class="inline-block bg-gray-700 text-white px-4 py-2 rounded-t">상품 상세정보</div>
+  <div class="border-t border-gray-300 bg-white p-6 rounded-b-lg shadow">
+    <table class="w-full table-auto border-collapse text-sm text-left">
+      <tbody>
+        <!-- 기본 정보 -->
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">제조회사</th>
+          <td class="px-4 py-2">HP (<a href="https://www.hp.com" class="text-blue-600 hover:underline">제조사 웹사이트 바로가기</a>)</td>
+          <th class="px-4 py-2 bg-gray-50">등록년월</th>
+          <td class="px-4 py-2">2020년 07월</td>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">제품구분</th>
+          <td class="px-4 py-2">복합기</td>
+          <th class="px-4 py-2 bg-gray-50">인쇄 방식</th>
+          <td class="px-4 py-2">잉크젯</td>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">제품분류</th>
+          <td class="px-4 py-2">복합기 (잉크젯)</td>
+          <th class="px-4 py-2 bg-gray-50">출력 색상</th>
+          <td class="px-4 py-2">컬러 출력</td>
+        </tr>
+
+        <!-- 복합기 기능 -->
+        <tr class="border-t-2 border-gray-300">
+          <th colspan="4" class="px-4 py-2 text-gray-700">[복합기 기능]</th>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">복사</th>
+          <td class="px-4 py-2">○</td>
+          <th class="px-4 py-2 bg-gray-50">스캔</th>
+          <td class="px-4 py-2">○</td>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">팩스</th>
+          <td class="px-4 py-2">○</td>
+          <td colspan="2"></td>
+        </tr>
+
+        <!-- 출력 성능 -->
+        <tr class="border-t-2 border-gray-300">
+          <th colspan="4" class="px-4 py-2 text-gray-700">[출력]</th>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">컬러 출력속도</th>
+          <td class="px-4 py-2">32ppm (18ipm)</td>
+          <th class="px-4 py-2 bg-gray-50">흑백 출력속도</th>
+          <td class="px-4 py-2">32ppm (22ipm)</td>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">첫 장 인쇄</th>
+          <td class="px-4 py-2">9초 (컬러 10초)</td>
+          <th class="px-4 py-2 bg-gray-50">인쇄 해상도</th>
+          <td class="px-4 py-2">4800 x 1200dpi</td>
+        </tr>
+
+        <!-- 스캔 성능 -->
+        <tr class="border-t-2 border-gray-300">
+          <th colspan="4" class="px-4 py-2 text-gray-700">[스캔 성능]</th>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">광학 스캔 해상도</th>
+          <td class="px-4 py-2">1200dpi</td>
+          <td colspan="2"></td>
+        </tr>
+
+        <!-- 복사 성능 -->
+        <tr class="border-t-2 border-gray-300">
+          <th colspan="4" class="px-4 py-2 text-gray-700">[복사 성능]</th>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">컬러 복사속도</th>
+          <td class="px-4 py-2">32ppm</td>
+          <th class="px-4 py-2 bg-gray-50">흑백 복사속도</th>
+          <td class="px-4 py-2">32ppm</td>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">연속복사</th>
+          <td class="px-4 py-2">99매</td>
+          <td colspan="2"></td>
+        </tr>
+
+        <!-- 팩스 성능 -->
+        <tr class="border-t-2 border-gray-300">
+          <th colspan="4" class="px-4 py-2 text-gray-700">[팩스 성능]</th>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">PC 팩스</th>
+          <td class="px-4 py-2">○</td>
+          <th class="px-4 py-2 bg-gray-50">팩스 모뎀</th>
+          <td class="px-4 py-2">33.6kbps</td>
+        </tr>
+
+        <!-- 용지/소모품 사양 -->
+        <tr class="border-t-2 border-gray-300">
+          <th colspan="4" class="px-4 py-2 text-gray-700">[용지/소모품 사양]</th>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">용지투입 방향</th>
+          <td class="px-4 py-2">하단 용지함 투입</td>
+          <th class="px-4 py-2 bg-gray-50">용지함 용량</th>
+          <td class="px-4 py-2">250매</td>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">최대 지원용지</th>
+          <td class="px-4 py-2">A4</td>
+          <th class="px-4 py-2 bg-gray-50">지원 용지 무게</th>
+          <td class="px-4 py-2">60~280g/m²</td>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">잉크구분</th>
+          <td class="px-4 py-2">안료잉크</td>
+          <th class="px-4 py-2 bg-gray-50">잉크탱크</th>
+          <td class="px-4 py-2">외장형 무한 잉크</td>
+        </tr>
+
+        <!-- 인쇄 기능 -->
+        <tr class="border-t-2 border-gray-300">
+          <th colspan="4" class="px-4 py-2 text-gray-700">[인쇄 기능]</th>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">자동양면인쇄</th>
+          <td class="px-4 py-2">○</td>
+          <th class="px-4 py-2 bg-gray-50">자동급지장치</th>
+          <td class="px-4 py-2">○</td>
+        </tr>
+
+        <!-- 부가/스마트 기능 -->
+        <tr class="border-t-2 border-gray-300">
+          <th colspan="4" class="px-4 py-2 text-gray-700">[부가/스마트 기능]</th>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">다이렉트 USB</th>
+          <td class="px-4 py-2">○</td>
+          <th class="px-4 py-2 bg-gray-50">모바일 프린팅</th>
+          <td class="px-4 py-2">○</td>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">AirPrint</th>
+          <td class="px-4 py-2">○</td>
+          <td colspan="2"></td>
+        </tr>
+
+        <!-- 연결 방식 -->
+        <tr class="border-t-2 border-gray-300">
+          <th colspan="4" class="px-4 py-2 text-gray-700">[연결 방식]</th>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">USB</th>
+          <td class="px-4 py-2">○</td>
+          <th class="px-4 py-2 bg-gray-50">Wi-Fi</th>
+          <td class="px-4 py-2">○</td>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">유선 LAN (RJ-45)</th>
+          <td class="px-4 py-2">○</td>
+          <td colspan="2"></td>
+        </tr>
+
+        <!-- 제품 사양 -->
+        <tr class="border-t-2 border-gray-300">
+          <th colspan="4" class="px-4 py-2 text-gray-700">[제품 사양]</th>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">RAM</th>
+          <td class="px-4 py-2">512MB</td>
+          <th class="px-4 py-2 bg-gray-50">디스플레이</th>
+          <td class="px-4 py-2">터치스크린 LCD</td>
+        </tr>
+        <tr class="border-t">
+          <th class="px-4 py-2 bg-gray-50">월 최대 인쇄량</th>
+          <td class="px-4 py-2">25,000매</td>
+          <td colspan="2"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-800 text-white py-8 mt-20">
+    <div class="max-w-6xl mx-auto px-6 text-center text-sm space-y-2">
+      <p>(주) 미래OA하이테크 | 대표: 김성식</p>
+      <p>사업자등록번호: 123-45-67890 | 대표번호: 010-3794-8363</p>
+      <p>주소: 경기도 시흥시 조남동 719-1</p>
+      <p class="text-gray-400 text-xs">Copyright © 2025 미래OA하이테크. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- 동적 로딩 스크립트 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const productId = new URLSearchParams(window.location.search).get("id");
+      const productData = {
+  // ================================HP9010========================
+        HP9010: {
+          name: "HP OfficeJet Pro 9010 잉크젯 칼라 복합기 렌탈",
+          description: "출력, 복사, 스캔, 팩스, 자동양면인쇄",
+          price: "28,000원",
+          category: {
+            name: "잉크젯복합기(컬러소형복합기)",
+            url: "ink-small-color.html"
+          },
+          image: "https://mirae-oa.com/images/HP9010.jpg",
+          thumbnails: ["https://mirae-oa.com/images/HP9010.jpg","https://mirae-oa.com/images/Thumbnail-HP9010_1.png"],
+          badges: ["신제품","컬러","무상AS","잉크무료"],
+          table: [
+            ["모델","HP OfficeJet Pro 9010 잉크젯 칼라 복합기"],
+            ["월 렌탈료","28,000원"],
+            ["렌탈 보증료","100,000원"],
+            ["기본 약정매수","[월] 흑백, 칼라 무관 1,000매"],
+            ["약정매수 초과시","장당 흑백, 칼라 무관 10원 (A4 단면 기준)"],
+            ["약정 기간","24개월 / 36개월 (선택 가능)"],
+            ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+            ["참고","월 렌탈료 VAT 별도"],
+            ["배송비","판매자 지정 배송"]
+          ]
+        },
+// ================================HP8710========================
+          HP8710: {
+          name: "HP OfficeJet Pro HP8710 잉크젯 칼라 복합기",
+          description: "출력, 복사, 스캔, 팩스, 자동양면인쇄",
+          price: "30,000원",
+          image: "https://mirae-oa.com/images/HP8710.jpg",
+          category: {
+            name: "잉크젯복합기(컬러소형복합기)",
+            url: "ink-small-color.html"
+          },
+          thumbnails: ["https://mirae-oa.com/images/HP8710.jpg","https://mirae-oa.com/images/Thumbnail-HP8710.png"],
+          badges: ["리퍼제품","컬러","무상AS","잉크무료"],
+          table: [
+            ["모델","HP OfficeJet Pro HP8710 잉크젯 칼라 복합기"],
+            ["월 렌탈료","30,000원"],
+            ["렌탈 보증료","100,000원"],
+            ["기본 약정매수","[월] 흑백, 칼라 무관 1,000매"],
+            ["약정매수 초과시","장당 흑백, 칼라 무관 10원 (A4 단면 기준)"],
+            ["약정 기간","24개월 / 36개월 (선택 가능)"],
+            ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+            ["참고","월 렌탈료 VAT 별도"],
+            ["배송비","판매자 지정 배송"]
+          ]
+        },
+// ================================GX7192========================
+        GX7192: {
+          name: "[Canon] MAXIFY GX7192 잉크젯 칼라 복합기",
+          description: "출력, 복사, 스캔, 팩스, 자동양면인쇄",
+          price: "30,000원",
+          image: "https://mirae-oa.com/images/GX7092.jpg",
+          category: {
+            name: "잉크젯복합기(컬러소형복합기)",
+            url: "ink-small-color.html"
+          },
+          thumbnails: ["https://mirae-oa.com/images/GX7092.jpg","https://mirae-oa.com/images/Thumbnail1-GX7192.jpg"
+            ,"https://mirae-oa.com/images/Thumbnail2-GX7192.jpg","https://mirae-oa.com/images/Thumbnail3-GX7192.jpg"
+          ],
+          badges: ["신제품","컬러","무상AS","잉크무료"],
+          table: [
+            ["모델","[Canon] MAXIFY GX7192 잉크젯 칼라 복합기"],
+            ["월 렌탈료","30,000원"],
+            ["렌탈 보증료","100,000원"],
+            ["기본 약정매수","[월] 흑백, 칼라 무관 1,000매"],
+            ["약정매수 초과시","장당 흑백, 칼라 무관 10원 (A4 단면 기준)"],
+            ["약정 기간","24개월 / 36개월 (선택 가능)"],
+            ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+            ["참고","월 렌탈료 VAT 별도"],
+            ["배송비","판매자 지정 배송"]
+          ]
+        }
+        ,
+        HP8210: {
+                  name: "HP OfficeJet Pro 8210 프린터 시리즈",
+                  description: "출력, 자동양면인쇄",
+                  price: "25,000원",
+                  image: "https://mirae-oa.com/images/HP8210.jpg",
+                  category: {
+                    name: "잉크젯복합기(컬러소형복합기)",
+                    url: "ink-small-color.html"
+                  },
+                  thumbnails: ["https://mirae-oa.com/images/HP8210.jpg","https://mirae-oa.com/images/Thumbnail-HP8210.png"
+                  ],
+                  badges: ["신제품","컬러","무상AS","잉크무료"],
+                  table: [
+                    ["모델","HP OfficeJet Pro 8210 프린터 시리즈"],
+                    ["월 렌탈료","25,000원"],
+                    ["렌탈 보증료","100,000원"],
+                    ["기본 약정매수","[월] 흑백, 칼라 무관 500매"],
+                    ["약정매수 초과시","장당 흑백, 칼라 무관 10원 (A4 단면 기준)"],
+                    ["약정 기간","24개월 / 36개월 (선택 가능)"],
+                    ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+                    ["참고","월 렌탈료 VAT 별도"],
+                    ["배송비","판매자 지정 배송"]
+                  ]
+                }
+                ,
+
+// ----------------------------------------------------------------
+//                      컬러 대형 (A3) 시작
+// ----------------------------------------------------------------
+
+// ================================HP7720========================
+
+        HP7720: {
+          name: "HP OfficeJet Pro 7720 Wide Format 올인원 프린터 시리즈",
+          description: "출력, 복사, 스캔, 팩스, 자동양면인쇄",
+          price: "35,000원",
+          image: "https://mirae-oa.com/images/HP7720.jpg",
+          thumbnails: ["https://mirae-oa.com/images/HP7720.jpg","https://mirae-oa.com/images/Thumbnail1-HP7720.jpg"
+          ,"https://mirae-oa.com/images/Thumbnail2-HP7720.jpg"
+          ,"https://mirae-oa.com/images/Thumbnail3-HP7720.jpg"
+          ],
+          badges: ["신제품","컬러","무상AS","잉크무료"],
+          category: {
+            name: "잉크젯복합기(컬러대형복합기)",
+            url: "ink-large-color.html"
+          },
+          table: [
+            ["모델","HP OfficeJet Pro 7720 Wide Format 올인원 프린터 시리즈"],
+            ["월 렌탈료","35,000원"],
+            ["렌탈 보증료","100,000원"],
+            ["기본 약정매수","[월] 흑백, 칼라 무관 1,000매"],
+            ["약정매수 초과시","장당 흑백, 칼라 무관 10원 (A4 단면 기준)"],
+            ["약정 기간","24개월 / 36개월 (선택 가능)"],
+            ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+            ["참고","월 렌탈료 VAT 별도"],
+            ["배송비","판매자 지정 배송"]
+          ]
+        }
+        ,
+
+// ================================HP7740========================
+
+        HP7740: {
+          name: "HP OfficeJet Pro HP7740 Wide Format 올인원 프린터 시리즈",
+          description: "출력, 복사, 스캔, 팩스, 자동양면인쇄",
+          price: "40,000원",
+          image: "https://mirae-oa.com/images/HP7740.jpg",
+          thumbnails: ["https://mirae-oa.com/images/HP7740.jpg","https://mirae-oa.com/images/Thumbnail1-HP7740.jpg"
+          ,"https://mirae-oa.com/images/Thumbnail2-HP7740.jpg"],
+          badges: ["신제품","컬러","무상AS","잉크무료"],
+          category: {
+            name: "잉크젯복합기(컬러대형복합기)",
+            url: "ink-large-color.html"
+          },
+          table: [
+            ["모델","HP OfficeJet Pro HP7740 Wide Format 올인원 프린터 시리즈"],
+            ["월 렌탈료","40,000원"],
+            ["렌탈 보증료","100,000원"],
+            ["기본 약정매수","[월] 흑백, 칼라 무관 1,000매"],
+            ["약정매수 초과시","장당 흑백, 칼라 무관 10원 (A4 단면 기준)"],
+            ["약정 기간","24개월 / 36개월 (선택 가능)"],
+            ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+            ["참고","월 렌탈료 VAT 별도"],
+            ["배송비","판매자 지정 배송"]
+          ]
+        },
+        // ----------------------------------------------------------------
+//                      레이저 컬러 소형 (A4) 시작
+// ----------------------------------------------------------------
+
+// ================================M5526========================
+
+        M5526: {
+          name: "교세라 ECOSYS M5526 컬러 레이저 복합기",
+          description: "출력, 복사, 스캔, 팩스, 자동양면인쇄",
+          price: "35,000원",
+          image: "https://mirae-oa.com/images/M5526.jpg",
+          thumbnails: ["https://mirae-oa.com/images/M5526.jpg","https://mirae-oa.com/images/Thumbnail1-M5526.jpg"
+          ],
+          badges: ["신제품","컬러","무상AS","잉크무료"],
+          category: {
+            name: "레이저복합기(컬러소형복합기)",
+            url: "lazer-small-color.html"
+          },
+          table: [
+            ["모델","교세라 ECOSYS M5526 컬러 레이저 복합기"],
+            ["월 렌탈료","35,000원"],
+            ["렌탈 보증료","100,000원"],
+            ["기본 약정매수","[월] 흑백 : 500매 | 칼라 : 100매"],
+            ["약정매수 초과시","장당 흑백, 칼라 무관 10원 (A4 단면 기준)"],
+            ["약정 기간","24개월 / 36개월 (선택 가능)"],
+            ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+            ["참고","월 렌탈료 VAT 별도"],
+            ["배송비","판매자 지정 배송"]
+          ]
+        },
+        
+// ----------------------------------------------------------------
+//                      레이저 컬러 대형 (A3) 시작
+// ----------------------------------------------------------------
+
+// ================================C3322========================
+        C3322: {
+          name: "[Canon] iRC3322",
+          description: "출력, 복사, 스캔, 팩스, 자동양면인쇄",
+          price: "49,000원",
+          image: "https://mirae-oa.com/images/C3322.jpg",
+          thumbnails: ["https://mirae-oa.com/images/C3322.jpg","https://mirae-oa.com/images/Thumbnail-C3322.jpg"
+          ],
+          badges: ["신제품","컬러","무상AS","잉크무료"],
+          category: {
+            name: "레이저복합기(컬러대형복합기)",
+            url: "lazer-large-color.html"
+          },
+          table: [
+            ["모델","[Canon] iRC3322"],
+            ["월 렌탈료","49,000원"],
+            ["렌탈 보증료","100,000원"],
+            ["기본 약정매수","[월] 흑백 : 1000매 | 칼라 : 100매"],
+            ["약정매수 초과시","장당 흑백, 칼라 무관 10원 (A4 단면 기준)"],
+            ["약정 기간","24개월 / 36개월 (선택 가능)"],
+            ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+            ["참고","월 렌탈료 VAT 별도"],
+            ["배송비","판매자 지정 배송"]
+          ]
+        },
+        C3922: {
+          name: "[Canon] iR ADV DX C3922",
+          description: "출력, 복사, 스캔, 팩스, 자동양면인쇄",
+          price: "69,000원",
+          image: "https://mirae-oa.com/images/C3922.jpg",
+          thumbnails: ["https://mirae-oa.com/images/C3922.jpg","https://mirae-oa.com/images/Thumbnail-C3922.jpg"
+          ],
+          badges: ["신제품","컬러","무상AS","잉크무료"],
+          category: {
+            name: "레이저복합기(컬러대형복합기)",
+            url: "lazer-large-color.html"
+          },
+          table: [
+            ["모델","[Canon] iR ADV DX C3922"],
+            ["월 렌탈료","69,000원"],
+            ["렌탈 보증료","100,000원"],
+            ["기본 약정매수","[월] 흑백 : 2000매 | 칼라 : 200매"],
+            ["약정매수 초과시","장당 흑백, 칼라 무관 10원 (A4 단면 기준)"],
+            ["약정 기간","24개월 / 36개월 (선택 가능)"],
+            ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+            ["참고","월 렌탈료 VAT 별도"],
+            ["배송비","판매자 지정 배송"]
+          ]
+        },   
+        
+        X5230NR: {
+          name: "삼성 MX5 시리즈 SL-X5230NR A3",
+          description: "출력, 복사, 스캔, 팩스, 자동양면인쇄",
+          price: "60,000원",
+          image: "https://mirae-oa.com/images/X5230NR.jpg",
+          thumbnails: ["https://mirae-oa.com/images/X5230NR.jpg","https://mirae-oa.com/images/Thumbnail1-X5230NR.avif"
+          ,"https://mirae-oa.com/images/Thumbnail2-X5230NR.avif","https://mirae-oa.com/images/Thumbnail3-X5230NR.avif"
+          ],
+          badges: ["신제품","컬러","무상AS","잉크무료"],
+          category: {
+            name: "레이저복합기(컬러대형복합기)",
+            url: "lazer-large-color.html"
+          },
+          table: [
+            ["모델","삼성 MX5 시리즈 SL-X5230NR A3"],
+            ["월 렌탈료","60,000원"],
+            ["렌탈 보증료","100,000원"],
+            ["기본 약정매수","[월] 흑백 : 1000매 | 칼라 : 200매"],
+            ["약정매수 초과시","장당 흑백, 칼라 무관 10원 (A4 단면 기준)"],
+            ["약정 기간","24개월 / 36개월 (선택 가능)"],
+            ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+            ["참고","월 렌탈료 VAT 별도"],
+            ["배송비","판매자 지정 배송"]
+          ]
+        },
+        2061: {
+          name: "후지필름(Apeos) C2061",
+          description: "출력, 복사, 스캔, 팩스, 자동양면인쇄",
+          price: "69,000원",
+          image: "https://mirae-oa.com/images/2061.jpg",
+          thumbnails: ["https://mirae-oa.com/images/2061.jpg","https://mirae-oa.com/images/Thumbnail-C2061.jpg"
+          ],
+          badges: ["신제품","컬러","무상AS","잉크무료"],
+          category: {
+            name: "레이저복합기(컬러대형복합기)",
+            url: "lazer-large-color.html"
+          },
+          table: [
+            ["모델","후지필름(Apeos) C2061"],
+            ["월 렌탈료","69,000원"],
+            ["렌탈 보증료","100,000원"],
+            ["기본 약정매수","[월] 흑백 : 1000매 | 칼라 : 200매"],
+            ["약정매수 초과시","장당 흑백, 칼라 무관 10원 (A4 단면 기준)"],
+            ["약정 기간","24개월 / 36개월 (선택 가능)"],
+            ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+            ["참고","월 렌탈료 VAT 별도"],
+            ["배송비","판매자 지정 배송"]
+          ]
+        },
+        X3220NR: {
+          name: "SL-X3220NR",
+          description: "출력, 복사, 스캔, 팩스, 자동양면인쇄",
+          price: "40,000원",
+          image: "https://mirae-oa.com/images/X3220NR.jpg",
+          thumbnails: ["https://mirae-oa.com/images/X3220NR.jpg"
+          ],
+          badges: ["신제품","컬러","무상AS","잉크무료"],
+          category: {
+            name: "레이저복합기(컬러대형복합기)",
+            url: "lazer-large-color.html"
+          },
+          table: [
+            ["모델","SL-X3220NR"],
+            ["월 렌탈료","40,000원"],
+            ["렌탈 보증료","100,000원"],
+            ["기본 약정매수","[월] 흑백 : 1000매 | 칼라 : 200매"],
+            ["약정매수 초과시","장당 흑백, 칼라 무관 10원 (A4 단면 기준)"],
+            ["약정 기간","24개월 / 36개월 (선택 가능)"],
+            ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+            ["참고","월 렌탈료 VAT 별도"],
+            ["배송비","판매자 지정 배송"]
+          ]
+        },
+        // ========================흑백소형복합기=================================
+         M2893: {
+          name: "삼성전자 SL-M2893FW",
+          description: "출력, 복사, 스캔, 팩스",
+          price: "25,000원",
+          image: "https://mirae-oa.com/images/M2893.avif",
+          thumbnails: ["https://mirae-oa.com/images/M2893.avif", "https://mirae-oa.com/images/Thumbnail1-M2893.avif", 
+          "https://mirae-oa.com/images/Thumbnail2-M2893.jpg"
+          ],
+          badges: ["신제품","컬러","무상AS","잉크무료"],
+          category: {
+            name: "레이저복합기(흑백소형복합기)",
+            url: "lazer-small-bw.html"
+          },
+          table: [
+            ["모델","삼성전자 SL-M2893FW"],
+            ["월 렌탈료","25,000원"],
+            ["렌탈 보증료","100,000원"],
+            ["기본 약정매수","[월] 흑백 : 500매"],
+            ["약정매수 초과시","장당 흑백 10원 (A4 단면 기준)"],
+            ["약정 기간","24개월 / 36개월 (선택 가능)"],
+            ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+            ["참고","월 렌탈료 VAT 별도"],
+            ["배송비","판매자 지정 배송"]
+          ]
+        },
+        // ========================흑백대형복합기=================================
+         2925: {
+          name: "[Canon] IR 2925 A3 흑백 디지털복합기",
+          description: "출력, 복사, 스캔, 팩스",
+          price: "49,000원",
+          image: "https://mirae-oa.com/images/2925.jpg",
+          thumbnails: ["https://mirae-oa.com/images/2925.jpg", "https://mirae-oa.com/images/Thumbnail-2925.jpg"
+          ],
+          badges: ["신제품","컬러","무상AS","잉크무료"],
+          category: {
+            name: "레이저복합기(흑백대형복합기)",
+            url: "lazer-large-bw.html"
+          },
+          table: [
+            ["모델","[Canon] IR 2925 A3 흑백 디지털복합기"],
+            ["월 렌탈료","49,000원"],
+            ["렌탈 보증료","100,000원"],
+            ["기본 약정매수","[월] 흑백 2,000매"],
+            ["약정매수 초과시","장당 흑백, 칼라 무관 10원 (A4 단면 기준)"],
+            ["약정 기간","24개월 / 36개월 (선택 가능)"],
+            ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+            ["참고","월 렌탈료 VAT 별도"],
+            ["배송비","판매자 지정 배송"]
+          ]
+        },
+        DX4835: {
+          name: "[Canon] IR ADV DX 4835",
+          description: "출력, 복사, 스캔, 팩스",
+          price: "69,000원",
+          image: "https://mirae-oa.com/images/DX4835.jpg",
+          thumbnails: ["https://mirae-oa.com/images/DX4835.jpg"
+          ],
+          badges: ["신제품","컬러","무상AS","잉크무료"],
+          category: {
+            name: "레이저복합기(흑백대형복합기)",
+            url: "lazer-large-bw.html"
+          },
+          table: [
+            ["모델","[Canon] IR ADV DX 4835"],
+            ["월 렌탈료","69,000원"],
+            ["렌탈 보증료","100,000원"],
+            ["기본 약정매수","[월] 흑백 3,000매"],
+            ["약정매수 초과시","장당 흑백, 칼라 무관 10원 (A4 단면 기준)"],
+            ["약정 기간","24개월 / 36개월 (선택 가능)"],
+            ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+            ["참고","월 렌탈료 VAT 별도"],
+            ["배송비","판매자 지정 배송"]
+          ]
+        },
+        //-------------------- 문서 세단기--------------------------
+        // KS125CD: {
+        //   name: "[Canon] IR ADV DX 4835",
+        //   description: "출력, 복사, 스캔, 팩스",
+        //   price: "69,000원",
+        //   image: "images/KS-125CD.jpg",
+        //   thumbnails: ["images/KS-125CD.jpg"
+        //   ],
+        //   badges: ["신제품","컬러","무상AS","잉크무료"],
+        //   category: {
+        //     name: "레이저복합기(흑백대형복합기)",
+        //     url: "lazer-large-bw.html"
+        //   },
+        //   table: [
+        //     ["모델","[Canon] IR ADV DX 4835"],
+        //     ["월 렌탈료","69,000원"],
+        //     ["렌탈 보증료","100,000원"],
+        //     ["기본 약정매수","[월] 흑백 3,000매"],
+        //     ["약정매수 초과시","장당 흑백, 칼라 무관 10원 (A3 단면 기준)"],
+        //     ["약정 기간","24개월 / 36개월 (선택 가능)"],
+        //     ["서비스","배송 및 설치 무료, 잉크 및 부품 무상 지원"],
+        //     ["참고","월 렌탈료 VAT 별도"],
+        //     ["배송비","판매자 지정 배송"]
+        //   ]
+        // },
+        
+      };
+      const data = productData[productId];
+      if (!data) {
+        document.querySelector('main').innerHTML = '<p class="text-red-600">해당 상품을 찾을 수 없습니다.</p>';
+        return;
+      }
+      const breadcrumb = document.getElementById("breadcrumbs");
+      breadcrumb.innerHTML = `
+        <a href="index.html" class="hover:text-blue-600">HOME</a>
+        <span class="mx-2">›</span>
+        <a href="${data.category.url}" class="hover:text-blue-600">${data.category.name}</a>
+        <span class="mx-2">›</span>
+        <span>상세페이지</span>
+      `;
+      document.getElementById("product-wrapper").style.display = "block";
+
+      document.getElementById("main-image").src = data.image;
+
+      const thumbContainer = document.querySelector(".mt-4.flex");
+      thumbContainer.innerHTML = data.thumbnails.map(src => `<img src="${src}" class="w-24 border cursor-pointer thumb" />`).join("");
+      thumbContainer.querySelectorAll('.thumb').forEach(el => el.addEventListener('click', () => document.getElementById('main-image').src = el.src));
+    
+      document.querySelector("h2.text-2xl").textContent = data.name;
+      document.querySelector("p.text-gray-600").textContent = data.description;
+      document.querySelector(".text-3xl").textContent = data.price;
+      document.querySelector(".flex.flex-wrap").innerHTML = data.badges.map(b => {
+       
+        let classes = "px-2 py-1 text-sm rounded-full ";
+        switch(b) {
+          case "신제품": classes += "bg-blue-500 text-white"; break;
+          case "리퍼제품": classes += "bg-blue-500 text-white"; break;
+          case "컬러": classes += "bg-red-500 text-white"; break;
+          case "무상AS": classes += "bg-green-500 text-white"; break;
+          case "잉크무료": classes += "bg-yellow-400 text-gray-800"; break;
+          default: classes += "bg-gray-300 text-gray-700";
+        }
+        return `<span class="${classes}">${b}</span>`;
+      }).join("");
+      const tbody = document.querySelector("table tbody");
+      tbody.innerHTML = data.table.map(([key,val]) => `<tr class="border-t"><th class="px-4 py-3 bg-gray-50">${key}</th><td class="px-4 py-3">${val}</td></tr>`).join("");
+    });
+  </script>
+
+  <!-- fade-in 스크립트 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const target = document.getElementById('product-detail-info');
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      }, { threshold: 0.1 });
+      observer.observe(target);
+    });
+  </script>
+</body>
+</html>

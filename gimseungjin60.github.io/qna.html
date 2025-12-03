@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="복합기 렌탈 전문 미래OA하이테크 - FAQ" />
+  <title>자주 묻는 질문 | 미래OA하이테크</title>
+  <link rel="icon" href="https://mirae-oa.com/images/favicon.jpg" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; background:#fafafa; color:#1f2937; }
+    nav ul li.relative:hover > ul, nav ul li.relative ul:hover {
+      opacity:1!important; visibility:visible!important; pointer-events:auto!important;
+    }
+    nav ul li.relative ul { margin-top:0!important; }
+
+    .faq-list { border-top:1px solid #e5e7eb; }
+    .faq-item { border-bottom:1px solid #e5e7eb; }
+    .faq-question {
+      width:100%; display:flex; justify-content:space-between; align-items:center;
+      padding:1rem 0; font-size:1rem; font-weight:500; background:#fff;
+      border-left: 4px solid transparent; transition: border-color 0.3s ease;
+    }
+    .faq-question:hover { color:#0f766e; }
+    .faq-question .icon { font-size:1.5rem; color:#9ca3af; transition:transform .3s; }
+    .faq-item.open .icon { transform:rotate(45deg); color:#0f766e; }
+    .faq-answer { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; }
+    .faq-item.open .faq-answer { max-height: 500px; opacity: 1; margin-bottom: 1rem; }
+
+    @media (max-width: 640px) {
+      .faq-question { font-size: 0.95rem; padding: 1rem 0.5rem; }
+      .faq-answer { font-size: 0.9rem; line-height: 1.6; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+      <a href="index.html" class="flex items-center space-x-3">
+        <img src="https://mirae-oa.com/images/oalogo.jpg" alt="회사 로고" class="h-20 w-auto flex-shrink-0" />
+      </a>
+      <nav class="hidden sm:block">
+        <ul class="flex space-x-10 text-base font-bold text-gray-800">
+          <li><a href="index.html" class="hover:text-blue-600 transition whitespace-nowrap">홈</a></li>
+          <li class="relative group">
+            <a href="#" class="hover:text-blue-600 transition inline-block whitespace-nowrap">잉크젯복합기</a>
+            <ul class="absolute left-0 top-full mt-2 w-60 bg-white shadow-lg rounded-md py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-200">
+              <li><a href="ink-small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium">컬러소형복합기(A4)</a></li>
+              <li><a href="ink-large-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium">컬러대형복합기(A3)</a></li>
+            </ul>
+          </li>
+          <li class="relative group">
+            <a href="#" class="hover:text-blue-600 transition inline-block whitespace-nowrap">레이저복합기</a>
+            <ul class="absolute left-0 top-full w-60 bg-white shadow-lg rounded-md py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-200">
+              <li><a href="lazer-small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium">컬러소형복합기(A4)</a></li>
+              <li><a href="lazer-large-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium">컬러대형복합기(A3)</a></li>
+              <li><a href="lazer-small-bw.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium">흑백소형복합기(A4)</a></li>
+              <li><a href="lazer-large-bw.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium">흑백대형복합기(A3)</a></li>
+            </ul>
+          </li>
+          <li class="relative group">
+            <a href="#" class="hover:text-blue-600 transition inline-block whitespace-nowrap">문서세단기</a>
+            <ul class="absolute left-0 top-full mt-2 w-60 bg-white shadow-lg rounded-md py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-200">
+              <li><a href="small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium">문서세단기</a></li>
+            </ul>
+          </li>
+          <li><a href="event.html" class="hover:text-blue-600 transition whitespace-nowrap">이벤트</a></li>
+          <li><a href="installation.html" class="hover:text-blue-600 transition whitespace-nowrap">설치사례</a></li>
+        </ul>
+      </nav>
+      <div class="hidden sm:block text-gray-600 font-semibold whitespace-nowrap">
+        <span>문의: 010-3794-8363 (평일 09:00~18:00)</span>
+      </div>
+      <button id="menu-btn" class="sm:hidden focus:outline-none text-gray-800">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+    <nav id="mobile-menu" class="sm:hidden fixed top-0 left-0 w-full h-full bg-white z-40 transform -translate-x-full transition-transform duration-300">
+      <div class="px-6 py-8">
+        <button id="menu-close-btn" class="mb-8 text-gray-800">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <ul class="space-y-6 text-lg font-bold text-gray-800">
+          <li><a href="index.html" class="block">홈</a></li>
+          <li><a href="small-color.html" class="block">소형컬러복합기 (A4)</a></li>
+          <li><a href="large-color.html" class="block">대형컬러복합기 (A4)</a></li>
+          <li><a href="small-bw.html" class="block">소형흑백복합기 (A3)</a></li>
+          <li><a href="large-bw.html" class="block">대형흑백복합기 (A3)</a></li>
+          <li><a href="event.html" class="block">이벤트</a></li>
+          <li><a href="installation.html" class="block">설치사례</a></li>
+          <li class="mt-6 text-gray-600 font-semibold whitespace-nowrap">문의: 010-3794-8363</li>
+        </ul>
+      </div>
+    </nav>
+    <script>
+      const menuBtn = document.getElementById('menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuCloseBtn = document.getElementById('menu-close-btn');
+      menuBtn.addEventListener('click', () => { mobileMenu.classList.remove('-translate-x-full'); });
+      menuCloseBtn.addEventListener('click', () => { mobileMenu.classList.add('-translate-x-full'); });
+    </script>
+  </header>
+
+  <main class="flex-1 py-12">
+    <div class="max-w-3xl mx-auto px-6">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">자주 묻는 질문</h2>
+      <div class="faq-list bg-white rounded-lg shadow">
+        <!-- FAQ Item -->
+        <div class="faq-item px-6">
+          <button class="faq-question">
+            <span>1. 렌탈, 구매의 선택 기준은 어떻게 되나요?</span>
+            <span class="icon">+</span>
+          </button>
+          <div class="faq-answer text-gray-700">
+            일반적으로 한 달에 <strong>1,000매 이상</strong> 인쇄해야 할 경우 렌탈을, <br/>
+            1,000매 이하일 경우 구매를 추천드립니다.
+          </div>
+        </div>
+        <div class="faq-item px-6">
+          <button class="faq-question">
+            <span>2. 렌탈의 장점은 무엇인가요?</span>
+            <span class="icon">+</span>
+          </button>
+          <div class="faq-answer text-gray-700">
+            초기 구매 비용 없이 월 렌탈료로 사용 가능하며, <br/>
+            소모품 및 A/S까지 포함되어 있어 유지비용을 절감할 수 있습니다.
+          </div>
+        </div>
+        <div class="faq-item px-6">
+          <button class="faq-question">
+            <span>3. 렌탈 비용은 홈페이지에 명시된 대로만 가능한가요?</span>
+            <span class="icon">+</span>
+          </button>
+          <div class="faq-answer text-gray-700">
+            기본 요금은 홈페이지 안내 금액이며, <br/>
+            계약 조건에 따라 맞춤 견적 및 할인이 가능합니다.
+          </div>
+        </div>
+        <div class="faq-item px-6">
+          <button class="faq-question">
+            <span>4. 단기 렌탈도 가능한가요?</span>
+            <span class="icon">+</span>
+          </button>
+          <div class="faq-answer text-gray-700">
+            예, 최소 3개월부터 단기 렌탈이 가능하며, <br/>
+            기간에 따라 유연한 요금제가 제공됩니다.
+          </div>
+        </div>
+        <div class="faq-item px-6">
+          <button class="faq-question">
+            <span>5. 구매 시 A/S는 어떻게 진행되나요?</span>
+            <span class="icon">+</span>
+          </button>
+          <div class="faq-answer text-gray-700">
+            구매 고객도 별도의 A/S 계약을 통해 <br/>
+            방문 설치 및 정기 점검 서비스를 이용할 수 있습니다.
+          </div>
+        </div>
+        <div class="faq-item px-6">
+          <button class="faq-question">
+            <span>6. 렌탈 시 A/S는 어떻게 진행되나요?</span>
+            <span class="icon">+</span>
+          </button>
+          <div class="faq-answer text-gray-700">
+            <strong>24시간 이내 방문 A/S</strong>를 보장하며, <br/>
+            긴급 상황 시 당일 처리도 가능합니다.
+          </div>
+        </div>
+        <div class="faq-item px-6">
+          <button class="faq-question">
+            <span>7. 고객 상담 문의 시간은 어떻게 되나요?</span>
+            <span class="icon">+</span>
+          </button>
+          <div class="faq-answer text-gray-700">
+            평일 <strong>09:00~18:00</strong>이며, <br/>
+            긴급 문의는 24시간 콜센터로도 접수 가능합니다.
+          </div>
+        </div>
+        <div class="faq-item px-6">
+          <button class="faq-question">
+            <span>8. 원격지원 서비스란 무엇인가요?</span>
+            <span class="icon">+</span>
+          </button>
+          <div class="faq-answer text-gray-700">
+            소프트웨어 문제 시 원격으로 PC에 접속하여 <br/>
+            설정 오류를 즉시 해결해 드리는 서비스입니다.
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="max-w-6xl mx-auto px-6 text-center text-sm space-y-2">
+      <p>(주) 미래OA하이테크 | 대표: 김성식</p>
+      <p>사업자등록번호: 123-45-67890 | 대표번호: 010-3794-8363</p>
+      <p>주소: 경기도 시흥시 조남동 719-1</p>
+      <p class="text-gray-400 text-xs">Copyright © 2025 미래OA하이테크. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+        if (!isOpen) { item.classList.add('open'); }
+      });
+    });
+  </script>
+</body>
+</html>

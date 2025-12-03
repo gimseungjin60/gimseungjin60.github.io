@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta 
+    name="viewport" 
+    content="width=device-width, initial-scale=1.0" 
+  />
+  <meta 
+    name="description" 
+    content="복합기 렌탈 전문 미래OA하이테크 - 중소기업, 병원, 학원 맞춤 서비스 제공."
+  />
+  <title>복합기 렌탈 전문 미래OA하이테크</title>
+
+  <!-- 구글 폰트: Noto Sans KR -->
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" 
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* ---------------------------------------------
+       전체 공통 설정
+    ---------------------------------------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column; /* 수직 정렬 */
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #ffffff;
+      color: #000000;
+      -webkit-text-size-adjust: 100%;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    img {
+      display: block;
+      max-width: 100%;
+    }
+    ul, li {
+      list-style: none;
+    }
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+    /* ✅ 드롭다운 문제 해결용 수정 */
+    nav ul li.relative:hover > ul,
+    nav ul li.relative ul:hover {
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+    }
+
+    nav ul li.relative ul {
+      margin-top: 0 !important; /* ✅ mt-2 제거 */
+    }
+
+    /* ---------------------------------------------
+       메인 컨텐츠(상품 리스트)
+    ---------------------------------------------- */
+    main {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+      flex: 1; /* 남는 공간 차지 */
+    }
+
+    /* 정렬 바 */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e5e7eb; /* gray-200 */
+      margin-bottom: 20px;
+    }
+    .filter-bar .sort-options {
+      display: flex;
+      gap: 20px;
+    }
+    .filter-bar .sort-options li {
+      font-size: 14px;
+      color: #374151; /* gray-700 */
+      cursor: pointer;
+      position: relative;
+    }
+    .filter-bar .sort-options li:hover,
+    .filter-bar .sort-options li.active {
+      color: #dc2626; /* red-600 */
+      font-weight: 500;
+    }
+    .filter-bar .item-count {
+      font-size: 13px;
+      padding: 4px 8px;
+      border: 1px solid #d1d5db; /* gray-300 */
+      border-radius: 4px;
+      background-color: #f3f4f6; /* gray-100 */
+      color: #374151; /* gray-700 */
+      cursor: pointer;
+    }
+    .filter-bar .item-count:hover {
+      background-color: #e5e7eb; /* gray-200 */
+    }
+
+    /* 상품 리스트: 그리드 4열 */
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .product-card {
+      background-color: #ffffff;
+      border: 1px solid #e5e7eb; /* gray-200 */
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      transition: box-shadow 0.2s ease-in-out;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    /* 카드 상단 이미지 박스 */
+    .product-card .img-container {
+      position: relative;
+      width: 100%;
+      height: 220px; /* 예시 화면과 동일 비율 */
+      background-color: #f3f4f6; /* 백업용 배경색 */
+    }
+    .product-card .img-container img.main-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* 속도 배지 (좌측 상단) */
+    .product-card .badge-speed {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background-color: #2563eb; /* blue-600 */
+      padding: 4px 6px;
+      border-radius: 4px;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .product-card .badge-speed img {
+      width: 14px;
+      height: 14px;
+      object-fit: contain;
+    }
+    /* 기능 아이콘 리스트 (좌측 아래) */
+    .product-card .feature-icons {
+      position: static;         /* ✅ absolute 제거 */
+      display: flex;
+      justify-content: flex-start;
+      gap: 6px;
+      margin: 10px 0;           /* 위/아래 여백 */
+      padding: 0;
+    }
+    .product-card .feature-icons img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+    /* 우측 상단 더보기 드롭다운 아이콘 */
+    .product-card .btn-more {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.04);
+      border-radius: 4px;
+    }
+    .product-card .btn-more:hover {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+    .product-card .btn-more img {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+    }
+    /* 카드 하단 정보 영역 */
+    .product-card .info-box {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 12px;
+    }
+    .product-card .info-box .title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1e293b; /* gray-800 */
+      line-height: 1.4;
+      min-height: 40px; /* 2줄 높이 확보 */
+      margin-bottom: 6px;
+    }
+    .product-card .info-box .subtitle {
+      font-size: 12px;
+      color: #6b7280; /* gray-500 */
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .product-card .info-box .price {
+      font-size: 16px;
+      font-weight: 700;
+      color: #dc2626; /* red-600 */
+      margin-bottom: 10px;
+    }
+    .product-card .info-box .label-box {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .product-card .info-box .label-box span {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #ffffff;
+    }
+    .product-card .info-box .label-box span.sale {
+      background-color: #dc2626; /* red-600 */
+    }
+    .product-card .info-box .label-box span.hot {
+      background-color: #f59e0b; /* yellow-500 */
+    }
+    .product-card .info-box .label-box span.new {
+      background-color: #2563eb; /* blue-600 */
+    }
+    /* 버튼 그룹 (렌탈제품, 퀵스무쌍) */
+    .product-card .info-box .btn-group {
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+    }
+    .product-card .info-box .btn-group button {
+      flex: 1;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 0;
+      border-radius: 4px;
+      transition: background-color 0.2s ease-in-out;
+      color: #ffffff;
+    }
+    .product-card .info-box .btn-group .btn-rental {
+      background-color: #3b82f6; /* blue-500 */
+    }
+    .product-card .info-box .btn-group .btn-rental:hover {
+      background-color: #2563eb; /* blue-600 */
+    }
+    .product-card .info-box .btn-group .btn-quick {
+      background-color: #ec4899; /* pink-500 */
+    }
+    .product-card .info-box .btn-group .btn-quick:hover {
+      background-color: #db2777; /* pink-600 */
+    }
+
+    /* ---------------------------------------------
+       Footer (푸터)
+    ---------------------------------------------- */
+    footer {
+      width: 100%;
+      background-color: #1f2937; /* gray-800 */
+      color: #9ca3af; /* gray-400 */
+      padding: 24px 0;
+      margin-top: 40px;
+    }
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .footer-container p + p {
+      margin-top: 6px;
+    }
+
+    /* ---------------------------------------------
+       반응형 (화면 너비 1024px 이하일 때 그리드 2열 → 1열)
+    ---------------------------------------------- */
+    @media screen and (max-width: 1024px) {
+      .product-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media screen and (max-width: 640px) {
+      .product-list {
+        grid-template-columns: 1fr;
+      }
+      .filter-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .filter-bar .item-count {
+        margin-top: 8px;
+      }
+    }
+    .category-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .category-tab {
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      border: 1px solid #0f7d94;
+      border-radius: 6px;
+      color: #0f7d94;
+      background-color: white;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .category-tab:hover {
+      background-color: #e0f2f5;
+    }
+    .category-tab.active {
+      background-color: #0f7d94;
+      color: white;
+    }
+  .breadcrumbs {
+    font-size: 13px;
+    color: #000000; /* 기본: gray-700 */
+  }
+  .breadcrumbs a {
+    color: #000000;
+    transition: color 0.2s ease-in-out;
+  }
+  .breadcrumbs a:hover {
+    color: #0f7d94; /* 마우스 오버 시 파란색 */
+    text-decoration: underline;
+  }
+
+  </style>
+</head>
+
+<body>
+  <!-- =============================================
+       HEADER (요청하신 코드 그대로)
+  ============================================== -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+      <!-- 로고 & 홈 링크 -->
+      <a href="index.html" class="flex items-center space-x-3">
+        <img src="https://mirae-oa.com/images/oalogo.jpg" alt="회사 로고" class="h-20" />
+      </a>
+      
+      <!-- PC용 네비게이션 -->
+      <nav class="hidden sm:block">
+        <ul class="flex space-x-10 text-base font-bold text-black-800">
+          <li>
+            <a href="index.html" class="hover:text-blue-600 transition whitespace-nowrap">홈</a>
+          </li>
+          <!-- 잉크젯복합기 -->
+          <li class="relative group">
+            <a href="#" class="hover:text-blue-600 transition inline-block whitespace-nowrap">잉크젯복합기</a>
+            <ul
+              class="absolute left-0 top-full mt-2 w-60 bg-white shadow-lg rounded-md py-2
+                     opacity-0 invisible
+                     group-hover:opacity-100 group-hover:visible
+                     hover:opacity-100 hover:visible
+                     pointer-events-none group-hover:pointer-events-auto hover:pointer-events-auto
+                     transition duration-200"
+            >
+              <li>
+                <a href="ink-small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러소형복합기(A4)</a>
+              </li>
+              <li>
+                <a href="ink-large-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러대형복합기(A3)</a>
+              </li>
+            </ul>
+          </li>
+          <!-- 레이저복합기 -->
+          <li class="relative group">
+            <a href="#" class="hover:text-blue-600 transition inline-block whitespace-nowrap">레이저복합기</a>
+            <ul
+              class="absolute left-0 top-full mt-2 w-60 bg-white shadow-lg rounded-md py-2
+                     opacity-0 invisible
+                     group-hover:opacity-100 group-hover:visible
+                     hover:opacity-100 hover:visible
+                     pointer-events-none group-hover:pointer-events-auto hover:pointer-events-auto
+                     transition duration-200"
+            >
+              <li>
+                <a href="lazer-small-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러소형복합기(A4)</a>
+              </li>
+              <li>
+                <a href="lazer-large-color.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">컬러대형복합기(A3)</a>
+              </li>
+              <li>
+                <a href="lazer-small-bw.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">흑백소형복합기(A4)</a>
+              </li>
+              <li>
+                <a href="lazer-large-bw.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">흑백대형복합기(A3)</a>
+              </li>
+            </ul>
+          </li>
+          <!-- 문서세단기 -->
+          <li class="relative group">
+            <a href="#" class="hover:text-blue-600 transition inline-block whitespace-nowrap">문서세단기</a>
+            <ul
+              class="absolute left-0 top-full mt-2 w-60 bg-white shadow-lg rounded-md py-2
+                     opacity-0 invisible
+                     group-hover:opacity-100 group-hover:visible
+                     hover:opacity-100 hover:visible
+                     pointer-events-none group-hover:pointer-events-auto hover:pointer-events-auto
+                     transition duration-200"
+            >
+              <li>
+                <a href="paper-shredder.html" class="block px-4 py-3 hover:bg-gray-100 text-sm font-medium whitespace-nowrap">문서세단기</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="event.html" class="hover:text-blue-600 transition whitespace-nowrap">이벤트</a></li>
+          <li><a href="installation.html" class="hover:text-blue-600 transition whitespace-nowrap">설치사례</a></li>
+        </ul>
+      </nav>
+    
+      <!-- PC용 연락처 -->
+      <div class="hidden sm:block text-black-600 font-semibold whitespace-nowrap">
+        <span>문의: 010-3794-8363 (평일 09:00~18:00)</span>
+      </div>
+    
+      <!-- 모바일 햄버거 버튼 -->
+      <button id="menu-btn" class="sm:hidden focus:outline-none text-black-800" aria-label="메뉴 열기" aria-expanded="false">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    
+      <!-- 모바일 메뉴 -->
+      <nav id="mobile-menu" class="sm:hidden fixed top-0 left-0 w-full h-full bg-white z-40 transform -translate-x-full transition-transform duration-300">
+        <div class="px-6 py-8">
+          <button id="menu-close-btn" class="mb-8 text-black-800 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+    
+          <ul class="space-y-6 text-lg font-bold text-black-800">
+            <li><a href="index.html" class="block">홈</a></li>
+            <li><a href="small-color.html" class="block">소형컬러복합기 (A4)</a></li>
+            <li><a href="large-color.html" class="block">대형컬러복합기 (A4)</a></li>
+            <li><a href="small-bw.html" class="block">소형흑백복합기 (A3)</a></li>
+            <li><a href="large-bw.html" class="block">대형흑백복합기 (A3)</a></li>
+            <li><a href="event.html" class="block">이벤트</a></li>
+            <li><a href="installation.html" class="block">설치사례</a></li>
+            <li class="mt-6 text-black-600 font-semibold whitespace-nowrap">문의: 010-3794-8363 (평일 09:00~18:00)</li>
+          </ul>
+        </div>
+      </nav>
+    
+      <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuCloseBtn = document.getElementById('menu-close-btn');
+    
+        // 메뉴 열기
+        menuBtn.addEventListener('click', () => {
+          mobileMenu.classList.remove('-translate-x-full');
+          mobileMenu.classList.add('translate-x-0');
+        });
+    
+        // 메뉴 닫기
+        menuCloseBtn.addEventListener('click', () => {
+          mobileMenu.classList.add('-translate-x-full');
+          mobileMenu.classList.remove('translate-x-0');
+        });
+      </script>
+    </div>
+  </header>
+
+
+  <!-- =============================================
+       MAIN CONTENT
+  ============================================== -->
+  <main>
+    <!-- ✅ 빵부스러기 -->
+    <div class="breadcrumbs">
+      <a href="index.html">HOME</a> &gt;
+      <a href="lazer-small-color.html">레이저복합기(컬러소형복합기)</a>
+    </div>
+    <!-- 정렬 및 전체 개수 -->
+    <div class="filter-bar">
+      <!-- 정렬 옵션 (각 li에 data-sort 속성 추가) -->
+      <ul class="sort-options">
+        <li data-sort="popularity" class="active">인기순</li>
+        <li data-sort="new">신상품순</li>
+        <li data-sort="price-asc">낮은 가격순</li>
+        <li data-sort="price-desc">높은 가격순</li>
+      </ul>
+      <div class="item-count">전체 1개</div>
+    </div>
+    <!-- ✅ 카테고리 탭 버튼들 -->
+    <div class="category-tabs">
+      <a href="lazer-small-color.html" class="category-tab active">컬러소형복합기(A4)</a>
+      <a href="lazer-large-color.html" class="category-tab">컬러대형복합기(A3)</a>
+      <a href="lazer-small-bw.html" class="category-tab">흑백소형복합기(A4)</a>
+      <a href="lazer-large-bw.html" class="category-tab">흑백대형복합기(A3)</a>
+     
+    </div>
+    <!-- 상품 리스트 (그리드 4열) -->
+    <div class="product-list">
+    <!-- ===== 상품 카드 1 ===== -->
+    <div class="product-card" data-id="M5526" data-price="40000" data-popularity="80" data-date="20250215">
+      <div class="img-container">
+        <img src="https://mirae-oa.com/images/M5526.jpg" alt="교세라 ECOSYS M5526 컬러 레이저 복합기" class="main-img" />
+      </div>
+      <div class="info-box">
+        <div class="feature-icons">
+          <img src="https://mirae-oa.com/images/icon-a4.png" alt="A4 아이콘" />
+          <img src="https://mirae-oa.com/images/icon-print.png" alt="인쇄 아이콘" />
+          <img src="https://mirae-oa.com/images/icon-copy.png" alt="복사 아이콘" />
+          <img src="https://mirae-oa.com/images/icon-scan.png" alt="스캔 아이콘" />
+          <img src="https://mirae-oa.com/images/icon-fax.png" alt="팩스 아이콘" />
+        </div>
+        <span class="title">(기본기능) 출력, 복사, 스캔, 팩스</span>
+
+        <div class="title">교세라 ECOSYS M5526 컬러 레이저 복합기</div>
+        <div class="subtitle">[월] 흑백 : 500매 | 컬러 100매 제공</div>
+        <div class="price">40,000원</div>
+        <div class="label-box">
+          <span class="sale">렌탈제품</span>
+          <span class="hot">BEST</span>
+          <span class="new">신상품</span>
+
+        </div>
+        <div class="btn-group">
+          <button class="btn-rental">렌탈제품</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 상품 카드 2 ===== -->
+    <!-- <div class="product-card" data-id="HP8710" data-price="49000" data-popularity="95" data-date="20250310">
+      <div class="img-container">
+        <img src="images/HP8710.jpg" alt="HP OfficeJet Pro 8710 잉크젯 칼라 복합기" class="main-img" />
+      </div>
+      <div class="info-box">
+        <div class="feature-icons">
+          <img src="images/icon-a3.png" alt="A3 아이콘" />
+          <img src="images/icon-print.png" alt="인쇄 아이콘" />
+          <img src="images/icon-copy.png" alt="복사 아이콘" />
+          <img src="images/icon-scan.png" alt="스캔 아이콘" />
+          <img src="images/icon-fax.png" alt="팩스 아이콘" />
+        </div>
+        <div class="title">HP OfficeJet Pro 8710 잉크젯 칼라 복합기</div>
+        <div class="subtitle">[기본메뉴+월] 흑백 : 1,000매 | 컬러 300매 제공</div>
+        <div class="price">49,000원</div>
+        <div class="label-box">
+          <span class="hot">BEST</span>
+        </div>
+        <div class="btn-group">
+          <button class="btn-rental">렌탈제품</button>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- ===== 상품 카드 3 ===== -->
+    <!-- <div class="product-card" data-id="GX7092" data-price="60000" data-popularity="70" data-date="20250105">
+      <div class="img-container">
+        <img src="images/GX7092.jpg" alt="Canon MAXIFY 정품 무한 GX7092 (무한잉크)" class="main-img" />
+      </div>
+      <div class="info-box">
+        <div class="feature-icons">
+          <img src="images/icon-a3.png" alt="A3 아이콘" />
+          <img src="images/icon-print.png" alt="인쇄 아이콘" />
+          <img src="images/icon-copy.png" alt="복사 아이콘" />
+          <img src="images/icon-scan.png" alt="스캔 아이콘" />
+          <img src="images/icon-fax.png" alt="팩스 아이콘" />
+        </div>
+        <div class="title">Canon MAXIFY 정품 무한 GX7092 (무한잉크)</div>
+        <div class="subtitle">[기본메뉴+월] 흑백 : 2,000매 | 컬러 400매 제공</div>
+        <div class="price">60,000원</div>
+        <div class="label-box">
+          <span class="sale">렌탈제품</span>
+          <span class="new">신상품</span>
+        </div>
+        <div class="btn-group">
+          <button class="btn-rental">렌탈제품</button>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- ===== 상품 카드 4 ===== -->
+    <!-- <div class="product-card" data-id="GX6092" data-price="80000" data-popularity="60" data-date="20250220">
+      <div class="img-container">
+        <img src="images/GX6092.jpg" alt="Canon MAXIFY 정품 무한 GX6092 (무한잉크)" class="main-img" />
+      </div>
+      <div class="info-box">
+        <div class="feature-icons">
+          <img src="images/icon-a3.png" alt="A3 아이콘" />
+          <img src="images/icon-print.png" alt="인쇄 아이콘" />
+          <img src="images/icon-copy.png" alt="복사 아이콘" />
+          <img src="images/icon-scan.png" alt="스캔 아이콘" />
+          <img src="images/icon-fax.png" alt="팩스 아이콘" />
+        </div>
+        <div class="title">Canon MAXIFY 정품 무한 GX6092 (무한잉크)</div>
+        <div class="subtitle">[기본메뉴+월] 흑백 : 2,000매 | 컬러 300매 제공</div>
+        <div class="price">80,000원</div>
+        <div class="label-box">
+          <span class="sale">렌탈제품</span>
+        </div>
+        <div class="btn-group">
+          <button class="btn-rental">렌탈제품</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+      <!-- ===== //상품 카드 4 ===== -->
+
+      <!-- ===== 상품 카드 5 ===== -->
+      <!-- <div class="product-card" data-price="70000" data-popularity="85" data-date="20250125">
+        <div class="img-container">
+          <img 
+            src="images/samsung_sl_x3220.jpg" 
+            alt="삼성 MultiXpress SL-X3220 컬러 복합기" 
+            class="main-img"
+          />
+          <div class="feature-icons">
+            <img src="images/icon-a3.png" alt="A3 아이콘" />
+            <img src="images/icon-print.png" alt="인쇄 아이콘" />
+            <img src="images/icon-copy.png" alt="복사 아이콘" />
+            <img src="images/icon-scan.png" alt="스캔 아이콘" />
+            <img src="images/icon-fax.png" alt="팩스 아이콘" />
+          </div>
+        </div>
+        <div class="info-box">
+          <div class="title">
+            삼성 MultiXpress SL-X3220 컬러 복합기
+          </div>
+          <div class="subtitle">
+            [기본메뉴+월] 흑백 : 2,000매 | 컬러 300매 제공
+          </div>
+          <div class="price">
+            70,000원
+          </div>
+          <div class="label-box">
+            <span class="hot">인기</span>
+          </div>
+          <div class="btn-group">
+            <button class="btn-rental">렌탈제품</button>
+          </div>
+        </div>
+      </div> -->
+      <!-- ===== //상품 카드 5 ===== -->
+
+      <!-- ===== 상품 카드 6 ===== -->
+      <!-- <div class="product-card" data-price="75000" data-popularity="50" data-date="20250301">
+        <div class="img-container">
+          <img 
+            src="images/samsung_sl_x4220.jpg" 
+            alt="삼성 MultiXpress SL-X4220 컬러복합기 렌탈" 
+            class="main-img"
+          />
+          <div class="feature-icons">
+            <img src="images/icon-a3.png" alt="A3 아이콘" />
+            <img src="images/icon-print.png" alt="인쇄 아이콘" />
+            <img src="images/icon-copy.png" alt="복사 아이콘" />
+            <img src="images/icon-scan.png" alt="스캔 아이콘" />
+            <img src="images/icon-fax.png" alt="팩스 아이콘" />
+          </div>
+        </div>
+        <div class="info-box">
+          <div class="title">
+            삼성 MultiXpress SL-X4220 컬러복합기 렌탈
+          </div>
+          <div class="subtitle">
+            [기본메뉴+월] 흑백 : 2,000매 | 컬러 300매 제공
+          </div>
+          <div class="price">
+            75,000원
+          </div>
+          <div class="label-box">
+            <span class="new">신상품</span>
+          </div>
+          <div class="btn-group">
+            <button class="btn-rental">렌탈제품</button>
+          </div>
+        </div>
+      </div> -->
+      <!-- ===== //상품 카드 6 ===== -->
+    </div>
+  </main>
+
+  <!-- =============================================
+       FOOTER
+  ============================================== -->
+  <footer class="bg-gray-800 text-white py-8 mt-20">
+    <div class="max-w-6xl mx-auto px-6 text-center text-sm space-y-2">
+      <p>(주) 미래OA하이테크 | 대표: 김성식</p>
+      <p>사업자등록번호: 123-45-67890 | 대표번호: 010-3794-8363</p>
+      <p>주소: 경기도 시흥시 조남동 719-1</p>
+      <p class="text-black-400 text-xs">Copyright © 2025 미래OA하이테크. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+    const productCards = document.querySelectorAll('.product-card');
+
+    productCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const id = card.dataset.id;
+        if (id) {
+          window.location.href = `product-detail.html?id=${id}`;
+        }
+      });
+    });
+  </script>
+
+  <!-- =============================================
+       정렬 기능을 위한 JavaScript
+  ============================================== -->
+  <script>
+    // 정렬 옵션(<li>)과 상품 리스트 컨테이너를 선택
+    const sortItems = document.querySelectorAll('.sort-options li');
+    const productList = document.querySelector('.product-list');
+
+    // 정렬 클릭 핸들러
+    function handleSortClick(e) {
+      const sortKey = e.currentTarget.dataset.sort; // data-sort 값 가져오기
+
+      // active 클래스 토글
+      sortItems.forEach(li => li.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+
+      // 제품 카드 리스트를 배열로 변환
+      const cards = Array.from(productList.querySelectorAll('.product-card'));
+
+      // 비교 함수 결정
+      let compareFn;
+      switch (sortKey) {
+        case 'popularity':
+          compareFn = (a, b) => {
+            return parseInt(b.dataset.popularity, 10) - parseInt(a.dataset.popularity, 10);
+          };
+          break;
+        case 'new':
+          compareFn = (a, b) => {
+            return parseInt(b.dataset.date, 10) - parseInt(a.dataset.date, 10);
+          };
+          break;
+        case 'price-asc':
+          compareFn = (a, b) => {
+            return parseInt(a.dataset.price, 10) - parseInt(b.dataset.price, 10);
+          };
+          break;
+        case 'price-desc':
+          compareFn = (a, b) => {
+            return parseInt(b.dataset.price, 10) - parseInt(a.dataset.price, 10);
+          };
+          break;
+        default:
+          return;
+      }
+
+      // 배열 정렬
+      cards.sort(compareFn);
+
+      // 정렬된 순서대로 다시 추가
+      cards.forEach(card => productList.appendChild(card));
+    }
+
+    // 각 정렬 버튼에 이벤트 리스너 등록
+    sortItems.forEach(li => {
+      li.addEventListener('click', handleSortClick);
+    });
+  </script>
+</body>
+</html>
