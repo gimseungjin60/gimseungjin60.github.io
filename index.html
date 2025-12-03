@@ -477,9 +477,9 @@ window.addEventListener("DOMContentLoaded", function () {
   /* ---------------------------------------------------------
       🔴 도착 마커 (정품 빨간 아이콘)
   --------------------------------------------------------- */
-  const arrivalImg = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png";
-  const arrivalSize = new kakao.maps.Size(36, 36);
-  const arrivalOffset = new kakao.maps.Point(18, 36);
+const arrivalImg = "https://t1.daumcdn.net/mapjsapi/images/marker_p_red.png";
+const arrivalSize = new kakao.maps.Size(34, 34);
+const arrivalOffset = new kakao.maps.Point(17, 34);
 
   const arrivalMarkerImage = new kakao.maps.MarkerImage(arrivalImg, arrivalSize, {
     offset: arrivalOffset
@@ -496,9 +496,9 @@ window.addEventListener("DOMContentLoaded", function () {
   --------------------------------------------------------- */
   const companyPosition = new kakao.maps.LatLng(37.37711, 126.80510);
 
-  const companyImg = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-  const companySize = new kakao.maps.Size(36, 36);
-  const companyOffset = new kakao.maps.Point(18, 36);
+  const companyImg = "https://t1.daumcdn.net/mapjsapi/images/marker_p_blue.png";
+  const companySize = new kakao.maps.Size(34, 34);
+  const companyOffset = new kakao.maps.Point(17, 34);
   const companyMarkerImage = new kakao.maps.MarkerImage(companyImg, companySize, {
     offset: companyOffset
   });
@@ -542,9 +542,9 @@ window.addEventListener("DOMContentLoaded", function () {
         const loc = new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
         map.setCenter(loc);
 
-        const myImg = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-        const mySize = new kakao.maps.Size(35, 35);
-        const myOffset = new kakao.maps.Point(18, 35);
+          const myImg = "https://t1.daumcdn.net/mapjsapi/images/marker_p_green.png";
+          const mySize = new kakao.maps.Size(34, 34);
+          const myOffset = new kakao.maps.Point(17, 34);
 
         const myMarkerImage = new kakao.maps.MarkerImage(myImg, mySize, {
           offset: myOffset
