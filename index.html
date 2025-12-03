@@ -462,7 +462,6 @@ window.addEventListener("DOMContentLoaded", function () {
   // ⭐ 도착 위치
   const arrivalLat = 37.378635;
   const arrivalLng = 126.867181;
-
   const arrivalPosition = new kakao.maps.LatLng(arrivalLat, arrivalLng);
 
   // ⭐ 지도 생성
@@ -476,13 +475,15 @@ window.addEventListener("DOMContentLoaded", function () {
   map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
 
   /* ---------------------------------------------------------
-      🔴 도착 마커 (현재 위치 아이콘과 동일한 빨간버전)
+      🔴 도착 마커 (정품 빨간 아이콘)
   --------------------------------------------------------- */
-  const arrivalImg = "https://t1.daumcdn.net/mapjsapi/images/marker.png";
-  const arrivalSize = new kakao.maps.Size(40, 40);
-  const arrivalOffset = new kakao.maps.Point(20, 40);
+  const arrivalImg = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png";
+  const arrivalSize = new kakao.maps.Size(36, 36);
+  const arrivalOffset = new kakao.maps.Point(18, 36);
 
-  const arrivalMarkerImage = new kakao.maps.MarkerImage(arrivalImg, arrivalSize, { offset: arrivalOffset });
+  const arrivalMarkerImage = new kakao.maps.MarkerImage(arrivalImg, arrivalSize, {
+    offset: arrivalOffset
+  });
 
   new kakao.maps.Marker({
     position: arrivalPosition,
@@ -491,12 +492,20 @@ window.addEventListener("DOMContentLoaded", function () {
   });
 
   /* ---------------------------------------------------------
-      🟦 회사 마커
+      🟦 회사 마커 (정품 파란 별마커)
   --------------------------------------------------------- */
   const companyPosition = new kakao.maps.LatLng(37.37711, 126.80510);
 
+  const companyImg = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+  const companySize = new kakao.maps.Size(36, 36);
+  const companyOffset = new kakao.maps.Point(18, 36);
+  const companyMarkerImage = new kakao.maps.MarkerImage(companyImg, companySize, {
+    offset: companyOffset
+  });
+
   const companyMarker = new kakao.maps.Marker({
     position: companyPosition,
+    image: companyMarkerImage,
     map: map
   });
 
@@ -533,8 +542,17 @@ window.addEventListener("DOMContentLoaded", function () {
         const loc = new kakao.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
         map.setCenter(loc);
 
+        const myImg = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+        const mySize = new kakao.maps.Size(35, 35);
+        const myOffset = new kakao.maps.Point(18, 35);
+
+        const myMarkerImage = new kakao.maps.MarkerImage(myImg, mySize, {
+          offset: myOffset
+        });
+
         const myMarker = new kakao.maps.Marker({
           position: loc,
+          image: myMarkerImage,
           map: map
         });
 
